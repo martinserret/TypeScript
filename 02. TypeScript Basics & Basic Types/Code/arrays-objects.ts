@@ -74,3 +74,19 @@ newUser = {
 //     id: "1"
 //   }
 // }
+
+
+// Tricky the must not be null type
+let val: {} = "some text"; // In Typescript, means any value (string, number, boolean, empty object, etc.) that's not undefined or null
+
+
+// Flexible objects with the record type
+
+let data: Record<string, number | string> // Record<string, number | string> : an object with a key(string)/value(string or number) pair 
+// Record type is a generic type. It's a type that is meant to work together with other types, that needs extra type information tto work correctly.
+// that allows to declare an empty object (object you don't know in advance) with no value inside (just specifies the key type and the value type) (because {} means everything except null or undefined)
+
+data = {
+  entry1: 1,
+  entry2: "new data"
+}
