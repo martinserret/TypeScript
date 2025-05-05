@@ -1,0 +1,17 @@
+<html><head></head><body><p>Of course object types can also be created for<strong> nested objects</strong>.</p><p>Let's say you have this JavaScript <strong>object</strong>:</p><pre class="prettyprint linenums">const product =&nbsp;{
+  id:&nbsp;'abc1',
+  price:&nbsp;12.99,
+  tags: ['great-offer', 'hot-and-new'],
+  details: {
+    title:&nbsp;'Red Carpet',
+    description:&nbsp;'A&nbsp;great carpet - almost brand-new!'
+  }
+}</pre><p>This would be the <strong>type</strong> of such an object:</p><pre class="prettyprint linenums">{
+  id:&nbsp;string;
+  price:&nbsp;number;
+  tags: string[];
+  details: {
+    title:&nbsp;string;
+    description:&nbsp;string;
+  }
+}</pre><p>So you have an object type in an object type so to say.</p></body></html>

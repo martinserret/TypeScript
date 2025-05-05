@@ -1,0 +1,20 @@
+<html><head></head><body><p>As you saw in the previous lectures, you can use <code>.d.ts</code> files (indirectly, by installing <code>@types</code> packages OR by creating them manually) to add missing type declarations.</p><p>Alternatively, if you maybe just need one or two missing type declarations, you can also declare those missing types yourself in your own <code>.ts</code> files (<em>note:&nbsp;NOT&nbsp;</em><code><em>.d.ts</em></code><em>!</em>).</p><p>For example, in a HTML file (e.g., index.html) you may define a global variable like this:</p><pre class="prettyprint linenums">&lt;body&gt;
+  &lt;script&gt;
+    var MODE&nbsp;=&nbsp;'DEFAULT';
+  &lt;/script&gt;
+&lt;/body&gt;</pre><p>What if your other code is written in TypeScript and stored in other files but relies on that variable?</p><p>For example, you may have code like this in some TypeScript file:</p><pre class="prettyprint linenums">const selectedMode =&nbsp;MODE;</pre><p>TypeScript will complain about this line since <code>MODE</code>&nbsp;is not defined in the TypeScript file itself. It does not know it. And even if it would know that <code>MODE</code>&nbsp;exists, TypeScript would not know which type of value may be stored by <code>MODE</code>.</p><p>That's where a custom type declaration via the <code>declare</code> keyword can come in handy.</p><p>You can "convince"&nbsp;TypeScript that <code>MODE</code>&nbsp;exists and stores a value of type string by adjusting your TypeScript code like this:</p><pre class="prettyprint linenums">declare var MODE: string;
+const selectedMode =&nbsp;MODE;</pre><p><code>declare</code> "tells" TypeScript that a certain "thing"&nbsp;(in this case a variable) exists and is of a certain type.</p><p>You can also declare other things - for example the existence and structure of a namespace that may contain various types:</p><pre class="prettyprint linenums">declare namespace D3 {
+  export interface Selectors {
+    select: {
+      (selector: string): Selection;
+      (element: EventTarget): Selection;
+    };
+  }
+  export interface Event {
+    x: number;
+    y: number;
+  }
+  export interface Base extends Selectors {
+    event: Event;
+  }
+}</pre><p>If you explore the <code>.d.ts</code> files of popular packages like <code>lodash</code> you will find many such <code>declare</code> statements in those files.</p></body></html>

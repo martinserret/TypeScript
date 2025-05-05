@@ -1,0 +1,40 @@
+<html><head></head><body><p>In the next lecture, we'll add webpack-dev-server - a tool we use for spinning up a local development server that serves our website.</p><p>When using the latest Webpack version, you must edit the webpack.config.js file slightly.</p><p><strong>1) Add a </strong><code><strong>devServer</strong></code><strong> option</strong></p><pre class="prettyprint linenums">devServer: {
+  static: [
+    {
+      directory: path.join(__dirname),
+    },
+  ],
+},</pre><p><strong>2) Set </strong><code><strong>output.publicPath</strong></code><strong> to </strong><code><strong>'/dist/' </strong></code></p><pre class="prettyprint linenums">output: {
+  filename: 'bundle.js',
+  path: path.resolve(__dirname, 'dist'),
+  publicPath: '/dist/'
+},</pre><p>(we add <code>publicPath</code> in the next lecture - make sure you set it to <code>'/dist/'</code>, NOT to just <code>'dist'</code>!)</p><p>After the next lecture, the finished, updated <code>webpack.config.js</code> file should look like this:</p><pre class="prettyprint linenums">const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.ts',
+  devServer: {
+    static: [
+      {
+        directory: path.join(__dirname),
+      },
+    ],
+  },
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+};</pre></body></html>

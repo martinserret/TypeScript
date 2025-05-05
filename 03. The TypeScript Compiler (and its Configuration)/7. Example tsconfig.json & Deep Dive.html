@@ -1,0 +1,17 @@
+<html><head></head><body><p>The <code>tsconfig.json</code> file can be scary! Over all those years, dozens of options and settings have been added - and trying to make sense of them all is almost impossible.</p><p>Thankfully, you really don't need to understand them all, though!</p><p>Very often, you'll be working in a project created with build tools like <a href="https://vite.dev/" rel="noopener noreferrer" target="_blank">Vite</a> which create a fitting <code>tsconfig.json</code> file for you.</p><p>If you DO&nbsp;want to understand some of the settings you see in those generated <code>tsconfig.json</code> files, the <a href="https://www.typescriptlang.org/tsconfig" rel="noopener noreferrer" target="_blank">official reference</a> can be helpful.</p><p>And if you need a basic <code>tsconfig.json</code> file because you're working in a project that doesn't come with one, you can consider using this one (also available <a href="https://gist.github.com/mschwarzmueller/2ba4a82da34298d7a545269256ed6acf" rel="noopener noreferrer" target="_blank">here</a> and <a href="https://maximilian-schwarzmueller.com/articles/making-sense-of-tsconfig-json/" rel="noopener noreferrer" target="_blank">described in greater detail here</a>):</p><pre class="prettyprint linenums">{
+  "target": "ES2022", //&nbsp;Good for modern browsers or Node.js
+  "compilerOptions": {
+    "esModuleInterop": true, //&nbsp;Ensures ESM and CJS imports work together well
+    "skipLibCheck": true, //&nbsp;Ensures .d.ts files from 3rd libraries are not type-checked
+    "target": "es2022", // Sets a relatively modern ECMAScript version as compilation target
+    "allowJs": true, //&nbsp;Allows importing .js files into .ts (helpful when migrating projects)
+    "strict": true, //&nbsp;Ensures strict type checking (i.e., noImplicitAny etc)
+    "noUncheckedIndexedAccess": true, //&nbsp;Adds undefined as a value when accessing by index
+    // "noImplicitOverride": true, // Enable this when working with classes &amp; inheritance
+    "noUnusedLocals": true, // to avoid unused variables
+    "module": "NodeNext", //&nbsp;Supports both ESM&nbsp;&amp;&nbsp;CJS modules /&nbsp;imports
+    "outDir": "dist", // Store compiled files in "dist" folder
+    "sourceMap": true, //&nbsp;Enables source maps for easier debugging
+    "lib": ["es2022", "dom", "dom.iterable"] // Or without "dom" libs when building for Node
+  }
+}</pre><p>The above configuration will likely <strong>NOT work</strong> when using third-party build tools or bundlers - but, again, if you are using such tools, you'll typically also use them or some helper tools to create projects with a pre-defined <code>tsconfig.json</code> file.</p></body></html>

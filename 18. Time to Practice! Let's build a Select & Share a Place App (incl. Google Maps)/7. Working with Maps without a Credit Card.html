@@ -1,0 +1,22 @@
+<html><head></head><body><p>Using Google Maps unfortunately requires a credit card, even though you got a generous free tier which you very likely wouldn't exceed.</p><p>If you got no credit card, you can look into OpenLayers as an alternative (here's how to render a map with it:&nbsp;<a href="https://openlayers.org/en/latest/doc/quickstart.html" rel="noopener noreferrer" target="_blank">https://openlayers.org/en/latest/doc/quickstart.html</a>).</p><p>In our concrete example, this would render a map:</p><p>Include this in your HTML&nbsp;file:</p><pre class="prettyprint linenums"> &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css"&gt;
+    &lt;script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"&gt;&lt;/script&gt;</pre><p>In <code>app.ts</code>, use this&nbsp;code:</p><pre class="prettyprint linenums">declare var ol:&nbsp;any;
+
+function searchAddressHandler(event: Event) {
+  event.preventDefault();
+
+  const coordinates = {lat:&nbsp;40.41, lng:&nbsp;-73.99}; //&nbsp;Can't fetch coordinates from Google API, use dummy ones
+
+  document.getElementById('map')!.innerHTML&nbsp;=&nbsp;''; //&nbsp;clear &lt;p&gt;&nbsp;from &lt;div id="map"&gt;
+  new ol.Map({
+    target: 'map',
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })
+    ],
+    view: new ol.View({
+      center: ol.proj.fromLonLat([coordinates.lng, coordinates.lat]),
+      zoom: 16
+    })
+  });
+}</pre><p>You can explore the OpenLayers docs to learn how to render a broad variety of different things.</p></body></html>

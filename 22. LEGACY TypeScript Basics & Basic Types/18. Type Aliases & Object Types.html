@@ -1,0 +1,16 @@
+<html><head></head><body><p>Type aliases can be used to "create" your own types. You're not limited to storing union types though - you can also provide an alias to a (possibly complex)&nbsp;object type.</p><p>For example:</p><pre class="prettyprint linenums">type User =&nbsp;{ name:&nbsp;string;&nbsp;age:&nbsp;number };
+const u1:&nbsp;User =&nbsp;{ name:&nbsp;'Max', age:&nbsp;30 }; //&nbsp;this works!</pre><p>This allows you to avoid unnecessary repetition and manage types centrally.</p><p>For example, you can simplify this code:</p><pre class="prettyprint linenums">function greet(user:&nbsp;{ name:&nbsp;string;&nbsp;age:&nbsp;number }) {
+  console.log('Hi, I am&nbsp;'&nbsp;+ user.name);
+}
+
+function isOlder(user:&nbsp;{ name:&nbsp;string;&nbsp;age:&nbsp;number }, checkAge:&nbsp;number) {
+  return checkAge &gt;&nbsp;user.age;
+}</pre><p>To:</p><pre class="prettyprint linenums">type User =&nbsp;{ name:&nbsp;string;&nbsp;age:&nbsp;number };
+
+function greet(user:&nbsp;User) {
+  console.log('Hi, I am&nbsp;'&nbsp;+ user.name);
+}
+
+function isOlder(user:&nbsp;User, checkAge:&nbsp;number) {
+  return checkAge &gt;&nbsp;user.age;
+}</pre></body></html>

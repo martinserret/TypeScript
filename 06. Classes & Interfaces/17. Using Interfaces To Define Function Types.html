@@ -1,0 +1,7 @@
+<html><head></head><body><p>A lesser known but nonetheless interesting feature of&nbsp;TypeScript interfaces is that you can also use them to define function types.</p><p>For example, you might want to define the type of a <code>sum</code> function that takes two numbers as input and returns their sum.</p><p>You could write this code:</p><pre class="prettyprint linenums">type SumFn = (a: number, b: number) =&gt; number; //&nbsp;function type
+
+let sum: SumFn; // making sure sum can only store values of that function type
+
+sum = (a, b) =&gt; a + b; //&nbsp;assigning a value that adheres to that function type</pre><p>Alternatively, you can also define the SumFn type via an interface:</p><pre class="prettyprint linenums">interface SumFn {
+  (a: number, b: number): number;
+}</pre><p>It's up to you which alternative you prefer.</p><p>Typically, you'll encounter the first version (<code>type SumFn</code>) more often but it's worth knowing about the alternative, too.</p></body></html>

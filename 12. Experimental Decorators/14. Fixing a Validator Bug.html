@@ -1,0 +1,15 @@
+<html><head></head><body><p>In the current form, our validation logic is not entirely correct. It's not working as intended.</p><p>At the moment, only one validator value is stored in the array (e.g. <code>'required'</code>) - of course that's not what we need. Multiple values should be stored instead - at least potentially.</p><p>Here's how you can adjust the code to make that work:</p><pre class="prettyprint linenums">const registeredValidators: ValidatorConfig = {};
+ 
+function Required(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: [...(registeredValidators[target.constructor.name]?.[propName] ?? []), 'required']
+    };
+}
+ 
+function PositiveNumber(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: [...(registeredValidators[target.constructor.name]?.[propName] ?? []), 'positive']
+    };
+}</pre><p>For even more possible refactorings, see this thread: <a href="https://www.udemy.com/course/understanding-typescript/learn/lecture/16935744#questions/8835948" rel="noopener noreferrer" target="_blank">https://www.udemy.com/course/understanding-typescript/learn/lecture/16935744#questions/8835948</a></p></body></html>

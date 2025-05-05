@@ -1,0 +1,1 @@
+https://github.com/mschwarzmueller/understanding-typescript-resources/blob/main/attachments/16-libs-and-ts/starting-project.zip

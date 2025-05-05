@@ -1,0 +1,15 @@
+<html><head></head><body><p>The <code>typeof</code> operator can also be very useful for quickly getting the type of a (potentially complex) function.</p><p>Consider the following scenario:</p><p>You have a function <code>sum(a: number, b: number)</code> that sums two numbers. You also have <code>subtract(a: number, b: number)</code> that subtracts two numbers.</p><p>In addition, you have <code>performMathAction(cb)</code> which receives a <code>cb</code> parameter. <code>cb</code> should be either a pointer to the <code>sum</code> or the <code>subtract</code> function. So that you could either call <code>performMathAction(sum)</code> or <code>performMathAction(subtract)</code>.</p><p>Hence the idea is that <code>performMathAction</code> calls <code>sum</code> or <code>subtract</code> internally (and passes values to those functions).</p><p>This scenario is, of course, a bit made up but the described use-case of having a function that needs to interact with other functions is absolutely not - it's instead something you'll often do in your JavaScript /&nbsp;TypeScript code.</p><p>In order to properly define <code>performMathAction</code>, you must declare the type of the <code>cb</code> parameter.</p><p>You could do it like this:</p><pre class="prettyprint linenums">function performMathAction(cb: (a: number, b: number)&nbsp;=&gt;&nbsp;number)&nbsp;{
+  // some code...
+}</pre><p>But since you already defined <code>sum</code> and <code>subtract</code> somewhere else in your code, you can also simply derive the function type with help of <code>typeof</code>.</p><p>Like this:</p><pre class="prettyprint linenums">function sum(a: number, b: number) {
+  return a + b;
+}
+function subtract(a: number, b: number) {
+  return a - b;
+}
+
+type SumFn = typeof sum;
+type SubtractFn = typeof subtract;
+
+function performMathAction(cb: SumFn | SubtractFn) {
+  //&nbsp;some code...
+}</pre><p><br></p></body></html>
