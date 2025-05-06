@@ -29,3 +29,39 @@ function logAndThrow(errorMessage: string): never { // "never" is offered by Typ
   console.log(errorMessage);
   throw new Error(errorMessage);
 }
+
+
+// FUNCTIONS AS TYPES
+/////////////////////
+
+// "cb: () => void" is how to define a function type in Typescript (here we expect a function with no parameters that have no return)
+// cb: () => string : cb is a function type which return a string
+// cb: (a: number, b: number) => number : cb is a function type which has 2 parameters (numbers) and return a number
+
+function performJob(cb: () => void) { // cb is a parameter which expects to get a function (functions are value in Javascript). 
+  // ...
+  cb();
+}
+
+function performAnotherJob(cb: (msg: string) => void) {
+  cb("Job done!")
+}
+
+performAnotherJob(log); // Call the function performAnotherJob with the function parameter log
+
+type User = {
+  name: string,
+  age: number,
+  greet: () => string
+}
+
+let user: User = {
+  name: "Dwight",
+  age: 40,
+  greet() {
+    console.log("Sell paper...")
+    return this.name + " end his task."
+  } 
+}
+
+user.greet()
