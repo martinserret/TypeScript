@@ -23,3 +23,13 @@ const inputElement = document.getElementById('user-name')!; // Add a exclamation
 
 const inputEle = document.getElementById('user-name');
 console.log(inputEle?.value); // Question mark "?" (Javascript feature) tells that you know that value could be null. It's an inline check. If it's not null, try to access to the property, else not (not runtime error)
+
+
+// TYPE CASTING
+///////////////
+
+// Type costing (or type assertion) is a concept of converting some type to another type withe the operator "as"
+
+const inputElem = document.getElementById('user-name') as HTMLInputElement | null; // We telling Typescript that getElementById will return an HTMLInputElement or null
+
+console.log(inputElem?.value); // Then we don't have an error (error because in the others versions, this was an HTMLElement that can't have value properties)
