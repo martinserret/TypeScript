@@ -1,4 +1,5 @@
 // ARRAY
+////////
 
 let hobbies = ["Sports", "Cookies"]; // Typescript understand that hobbies is a variable that stores an array full of string
 let notes: (number | string)[]; // First way to define array types
@@ -15,6 +16,7 @@ users = [1, "Dwight", 2, "Michael"]
 
 
 // TUPLE
+////////
 
 let possibleResults: [number, number] // Tuple declaration in Typescript (here, an array with exactly 2 numbers)
 let multipleTypesResults: [number, string] // idem but an array with one number and one string
@@ -26,6 +28,7 @@ multipleTypesResults = [10, "dix"]
 
 
 // OBJECT
+/////////
 
 // Typescript automatically assigns type for each property
 let user = {
@@ -76,11 +79,12 @@ newUser = {
 // }
 
 
-// Tricky the must not be null type
+// Tricky must not be null type
 let val: {} = "some text"; // In Typescript, means any value (string, number, boolean, empty object, etc.) that's not undefined or null
 
 
-// Flexible objects with the record type
+// FLEXIBLE OBJECTS WITH THE RECORD TYPE
+////////////////////////////////////////
 
 let data: Record<string, number | string> // Record<string, number | string> : an object with a key(string)/value(string or number) pair 
 // Record type is a generic type. It's a type that is meant to work together with other types, that needs extra type information tto work correctly.
