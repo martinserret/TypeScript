@@ -30,9 +30,11 @@
 //*****************************************************************************************************************************************
 
 //*****************************************************************************************************************************************
-//* Type Checking
-//* - "allowJS" : allow combinaison of Javascript and Typescript in the project
-//* - "checkJS" : basic type checking in JS files
+//* Type Checking : control how strict Typescript is and about which kind of potential errors it will complain
+//* - "strict" : turn on most of these settings (which does not allow a lot of things but is a good practice)
+//* "noUnusedLocals": help to detect unused variable
+//* "noUnusedParameters": help to detect unused function parameters
+//* "noFallthroughCasesInSwitch": help to detect switch cases without break or return
 //*****************************************************************************************************************************************
 
 
@@ -41,3 +43,7 @@ let userName: string;
 userName = "Dwight";
 
 console.log(userName);
+
+function add(a, b) {
+  return a + b;
+}
