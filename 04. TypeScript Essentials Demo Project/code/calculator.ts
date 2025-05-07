@@ -11,11 +11,20 @@ type InvestmentData = {
   duration: number
 };
 
-function calculateInvestment(data: InvestmentData): number[] { 
+type InvestmentResultEntry = {
+  year: string,
+  totalAmount: number,
+  totalContributions: number,
+  totalInterestEarned: number
+};
+
+type CalculationResult = InvestmentResultEntry[] | string
+
+function calculateInvestment(data: InvestmentData): CalculationResult { 
 
 } // => result[]
 
-function printResults(results): void {
+function printResults(results: CalculationResult): void {
   // print (output) the result data
 }
 
