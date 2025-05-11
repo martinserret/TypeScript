@@ -6,3 +6,20 @@ let age = 30; // "let" can be change. Similar to "var". Problem with "var": avai
 
 age = 29; 
 
+
+// ARROW FUNCTIONS
+// ----------------------
+
+const add = (a: number, b: number) => a + b;
+
+const button = document.querySelector('button');
+
+if(button) {
+  button.addEventListener('click', event => console.log(event))
+}
+
+
+// Advantages : 
+//  - shorter
+//  - one line expression : no need curly bracket and no return
+// - function with only one parameter : concise syntax
