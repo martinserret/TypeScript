@@ -38,3 +38,28 @@ console.log(subtract(5));
 //! Exemple of error
 // const subtractProblem = (a: number = 5, b: number) => a + b;
 // console.log(subtractProblem(5));
+
+
+// THE SPREAD OPERATOR (...)
+// ----------------------------------
+
+// Retrieve the data stored in arrays and objects
+
+// Arrays are objects and objects are reference values. When we "push", we change the memory but not the address
+
+const hobbies = ['Sports', 'Cooking'];
+const activeHobbies = ['Hiking'];
+
+activeHobbies.push(...hobbies); // push all the elements of "hobbies" in "activeHobbies"
+
+const oldHobbies = ['Reading', ...hobbies] // put all elements of hobbies
+
+const person = {
+  name: 'Dwight',
+  age: 40
+}
+
+const copiedPointerPerson = person; // Here : just copy of the pointing in memory of the "person" object. So not a real copy of the object "person"
+
+const copiedRealPerson = { ...person} ; // Real copy of the object "person"
+
