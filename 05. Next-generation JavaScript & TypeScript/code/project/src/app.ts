@@ -77,3 +77,24 @@ const addNumbers = (...numbers: number[]) => { // Merge all incoming input in a 
 
 const addedNumbers = addNumbers(5, 10, 2, 3.7);
 console.log(addedNumbers);
+
+
+// ARRAY & OBJECT DESTRUCTURING
+// -------------------------------------
+
+// Destructuring allows to extract properties from an object or an array and assign them to variables
+
+const theOfficeCharacters = ["Michael", "Dwight", "Jim", "Pam", "Karen", "Stanley", "Erin"];
+
+const [name1, name2, name3, ...remainingCharacters] = theOfficeCharacters;  // Creation of 4 new variables : "name1" with the value "Michael", "name2" with the value "Dwight", ..., and "remainingCharacters" with the name remaining
+console.log(name1, name2, name3, remainingCharacters);
+
+const managerObject = {
+  name: 'Michael',
+  age: 45,
+  post: "Regional Manager",
+  experience: 15,
+}
+
+const { name: managerName, age: managerAge, post, experience } = managerObject; // Creation of 4 new variables. Here we take the value "name" of the "managerObject" and assign it in a variable called "managerName"
+console.log(managerName, managerAge, post, experience);
