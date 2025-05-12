@@ -15,9 +15,19 @@ class ConciseUser {
         this.name = name;
         this.age = age;
     }
-    ; //* >ith Typescript, other way to create properties and assign the value automatically behind the scene : use "public" or "private" before the parameters
+    ; //* With Typescript, other way to create properties and assign the value automatically behind the scene : use "public" or "private" before the parameters
 }
 ;
+class TypescriptUser {
+    name;
+    age;
+    constructor(name = "John", age) {
+        this.name = name;
+        this.age = age;
+    }
+    ; //* The constructor is just a function, so you dan use all the Typescript features
+}
 const dwight = new User('Dwight', 40);
 const jim = new ConciseUser('Jim', 35);
-console.log(dwight, jim);
+const unknown = new TypescriptUser();
+console.log(dwight, jim, unknown);
