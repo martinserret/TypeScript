@@ -63,3 +63,17 @@ const copiedPointerPerson = person; // Here : just copy of the pointing in memor
 
 const copiedRealPerson = { ...person} ; // Real copy of the object "person"
 
+
+// REST PARAMETERS
+// --------------------
+
+// Rest parameters merge all incoming parameters (generally the incoming list of values) into an array.
+
+const addNumbers = (...numbers: number[]) => { // Merge all incoming input in a number a array, we can accept an unlimited amount of arguments
+  return numbers.reduce((curResult, curValue) => { // reduce((currentResult, currentValue) => (), initValue) : performs an operation on every element in an array, return a result and then adds these results together
+    return curResult + curValue;
+  }, 0);
+};
+
+const addedNumbers = addNumbers(5, 10, 2, 3.7);
+console.log(addedNumbers);
