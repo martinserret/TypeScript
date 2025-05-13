@@ -2,8 +2,8 @@
 // --------------
 
 // getter: special kind of property or method create with the keyword "get".
-// In a getter, you must return a value. A getter is a calculated or a computed property. A property which has its value derived on the fly when it's accessed
-// You access to getter like a property even though it's define like a method.
+//  - In a getter, you must return a value. A getter is a calculated or a computed property. A property which has its value derived on the fly when it's accessed
+//  - You access to getter like a property even though it's define like a method.
 
 class UserGetter {
   constructor(private firstName: string, private lastName: string) {}
@@ -21,8 +21,8 @@ console.log(dwightGetter.fullName);
 // ---------------
 
 // setter: special kind of property or method create with the keyword "set". 
-// In a setter, you can change the value of a property and make checks or calculations before change it
-// You access to getter like a property even though it's define like a method.
+//  - In a setter, you can change the value of a property and make checks or calculations before change it
+//  - You access to getter like a property even though it's define like a method.
 
 class UserSetter {
   constructor(private _firstName: string, private _lastName: string) {}
@@ -61,7 +61,7 @@ console.log(jimSetter.fullName);
 // -------------------------------
 
 // static properties and method : you can access it on the class itself. Not on an object that's created based on a class, but on the class itself, before even creating an object.
-// This can especially be useful if you're building some kind of utility classes
+//  - This can especially be useful if you're building some kind of utility classes
 
 class UserStatic {
   constructor(private _firstName: string, private _lastName: string) {}
@@ -97,3 +97,36 @@ class UserStatic {
 
 console.log(UserStatic.eid); // None object created here but I can call the properties "eid"
 UserStatic.greet(); // None object created here but I can call the method "greet"
+
+
+// INHERITANCE
+// --------------------
+
+// inheritance: extend a class and create a relation parent/child between 2 classes
+//  - The child class inherits all the properties and methods of its parent class.
+//  - The child class can add its own properties and methods, and overwrite the properties and the methods of its parent class
+//  - super() is a built-in function which simply ensures that the constructor of the parent class is getting called as well
+//  - super is a built-in keyword that allows to access to its parent class properties or methods
+
+class Employee extends UserStatic {
+  constructor(_firstName: string, _lastName: string, public jobTitle: string) {
+    super(_firstName, _lastName);
+  }
+
+  public work() {
+    console.log("Work in progress...");
+    console.log("Done !");
+  }
+}
+
+const pamInheritance = new Employee("Pam", "Beesly", "Receptionist");
+
+// Parent properties and methods
+console.log(Employee.eid);
+Employee.greet();
+
+pamInheritance.firstName = "Pamela";
+console.log(pamInheritance.fullName);
+
+// Class own methods
+pamInheritance.work();
