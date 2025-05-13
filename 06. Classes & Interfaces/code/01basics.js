@@ -78,3 +78,4 @@ class ReadOnlyUser {
 }
 const pam = new ReadOnlyUser("Pam", 28);
 // pam.hobbies = ["Drawing"]; //! Example of error because "hobbies" is readonly
+pam.hobbies.push("Drawing"); // Works because "push()" doesn't assign a new value to that property but mutates the existing array in memory
