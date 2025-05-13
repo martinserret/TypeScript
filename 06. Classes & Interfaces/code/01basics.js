@@ -60,3 +60,21 @@ michael.hobbies = ["Movies"];
 console.log(michael.hobbies);
 // michael.age = 42; //! example of error because age is private
 michael.greet();
+// READ ONLY
+// --------------
+// readonly: simply ensure that a property can be read but can't be changed
+class ReadOnlyUser {
+    name;
+    age;
+    hobbies = []; // can be access everywhere. Public is default here if you write nothing
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    ;
+    greet() {
+        console.log(`My age is ${this.age}`);
+    }
+}
+const pam = new ReadOnlyUser("Pam", 28);
+// pam.hobbies = ["Drawing"]; //! Example of error because "hobbies" is readonly

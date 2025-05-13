@@ -58,3 +58,23 @@ console.log(michael.hobbies);
 
 // michael.age = 42; //! example of error because age is private
 michael.greet();
+
+
+// READ ONLY
+// --------------
+
+// readonly: simply ensure that a property can be read but can't be changed
+
+class ReadOnlyUser {
+  readonly hobbies: string[] = []; // can be access everywhere. Public is default here if you write nothing
+
+  constructor(public name: string, private readonly age: number) {};
+
+  greet() {
+    console.log(`My age is ${this.age}`);
+  }
+}
+
+const pam = new ReadOnlyUser("Pam", 28);
+// pam.hobbies = ["Drawing"]; //! Example of error because "hobbies" is readonly
+pam.hobbies.push("Drawing"); // Works because "push()" doesn't assign a new value to that property but mutates the existing array in memory
