@@ -69,3 +69,31 @@ userMerging = {
     // clear the session
   }
 }
+
+
+// IMPLEMENTING INTERFACES
+// -----------------------------
+
+// implements: Typescript feature that works in conjunction with the "interface" keyword. The "implements" keyword forces a class to implement the structure of the interface you're implementing
+//  - You could implement multiple surfaces (separating by a coma : class AuthUser implements Auth, ABC1, OtherInterface)
+
+// you can use interfaces as contracts that force a class to have a certain shape.
+
+interface AuthenticatableInterface {
+  email: string;
+  password: string;
+
+  login(): void;
+  logout(): void;
+}
+
+ class AuthenticatableUser implements AuthenticatableInterface {
+  constructor(public email: string, public password: string, public userName: string){}
+
+  login() {
+    // ...
+  }
+  logout() {
+    // ...
+  }
+}

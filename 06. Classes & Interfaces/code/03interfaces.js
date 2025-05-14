@@ -26,3 +26,19 @@ userMerging = {
         // clear the session
     }
 };
+class AuthenticatableUser {
+    email;
+    password;
+    userName;
+    constructor(email, password, userName) {
+        this.email = email;
+        this.password = password;
+        this.userName = userName;
+    }
+    login() {
+        // ...
+    }
+    logout() {
+        // ...
+    }
+}
