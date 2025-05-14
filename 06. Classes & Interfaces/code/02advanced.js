@@ -144,3 +144,34 @@ const michaelProtected = new EmployeeProtected("Michael", "Scott", 42, "Manager"
 michaelProtected.age = 43; //* work because age is public in UserProtected class
 // michaelProtected.jobTitle = ""; //! error because jobTitle is private in this class (UserProtected)
 michaelProtected.work();
+// ABSTRACT CLASS
+// --------------------------
+// abstract class: only exist in Typescript. You can directly instantiate an abstract class. The idea is to create classes that inherit of an abstract class and then create an instance of these new classes.
+//  - 
+class UIElement {
+    identifier;
+    constructor(identifier) {
+        this.identifier = identifier;
+    }
+    clone(targetLocation) {
+        console.log(`${this.identifier} element is duplicated in ${targetLocation}.`);
+    }
+}
+class SideDrawer extends UIElement {
+    identifier;
+    position;
+    constructor(identifier, position) {
+        super(identifier);
+        this.identifier = identifier;
+        this.position = position;
+    }
+    move(direction) {
+        console.log(`${this.identifier} has been moved from ${this.position} to ${direction}.`);
+        this.position = direction;
+    }
+}
+// let uiElement = new UIElement() //! error because you can't instantiate an abstract class
+let sideDrawer = new SideDrawer("sideDrawer", "left");
+sideDrawer.clone("homePage");
+sideDrawer.move("left");
+sideDrawer.move("right");
