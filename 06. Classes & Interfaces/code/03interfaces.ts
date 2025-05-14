@@ -31,3 +31,41 @@ user = {
     // clear the session
   }
 }
+
+
+// INTERFACES vs TYPE ALIASES + DECLARATION MERGING
+// ---------------------------------------
+
+// Why would you use an interface as object types instead of a custom object type ? It's your personal preference
+//  - type: if all you want to do is define the shape of an object, create a custom object type (most cases)
+//  - interface: make the same thing, both work and both can be done. There are subtle differences that can matter in certain scenarios especially with a feature called "declaration merging"
+
+// declaration merging: when you work with interfaces, you can easily and extra properties or methods to this object type by defining the same interface again (with the same name)
+//    - Mostly useful if you are working with interfaces that are coming from another file or, more commonly, from some library or anything like that (extend something you don't directly control).
+//      If you want to add a property to some interface you don't directly control you could do that with "declaration merging" (you can't do that with "type")
+
+interface AuthenticatableMerging {
+  email: string;
+  password: string;
+
+  login(): void;
+  logout(): void;
+}
+
+interface AuthenticatableMerging {
+  role: string;
+}
+
+let userMerging: AuthenticatableMerging;
+
+userMerging = {
+  email: 'test@example.com',
+  password: 'abc1',
+  role: 'admin',
+  login() {
+    // reach out to a database, check credentials, create a session
+  },
+  logout() {
+    // clear the session
+  }
+}
