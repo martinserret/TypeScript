@@ -108,3 +108,39 @@ pamInheritance.firstName = "Pamela";
 console.log(pamInheritance.fullName);
 // Class own methods
 pamInheritance.work();
+// PROTECTED MODIFIER
+// ---------------------------
+// protected: with the modifier protected, a child class can access to an inherit property or a method but it's not possible outside this inherit class
+//  - private: an inherit class can't access to the private properties and methods
+//  - public: everyone can access everywhere to the public properties and methods
+class UserProtected {
+    firstName;
+    lastName;
+    age;
+    constructor(firstName, lastName, age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+}
+class EmployeeProtected extends UserProtected {
+    jobTitle;
+    constructor(firstName, lastName, age, jobTitle) {
+        super(firstName, lastName, age);
+        this.jobTitle = jobTitle;
+    }
+    work() {
+        //console.log(this.firstName); //! error because firstName is private in UserProtected class
+        console.log(this.lastName); //* work because lastName is protected in UserProtected class
+        console.log(this.age); //* work because age is public in UserProtected class
+        console.log(this.jobTitle); //* work because jobTitle is private in this class (UserProtected)
+        console.log("Work in progress...");
+        console.log("Done !");
+    }
+}
+const michaelProtected = new EmployeeProtected("Michael", "Scott", 42, "Manager");
+// michaelProtected.firstName = ""; //! error because firstName is private in UserProtected class
+// michaelProtected.lastName = ""; //! error because lastName is protected in UserProtected class
+michaelProtected.age = 43; //* work because age is public in UserProtected class
+// michaelProtected.jobTitle = ""; //! error because jobTitle is private in this class (UserProtected)
+michaelProtected.work();
