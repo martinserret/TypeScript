@@ -35,3 +35,32 @@ function loadDataDiscriminated(source) {
     console.log(source.connectionUrl); // Typescript understand that the source is DBSourceDiscriminated
     // => to reach out to database
 }
+// TYPE GUARDS VIA INSTANCEOF
+// ---------------------------------
+// We can take advantage of a specific Javascript keyword : instanceof
+// instanceof allows us to check whether entity is an instance of an specific kind of object
+class User {
+    name;
+    constructor(name) {
+        this.name = name;
+    }
+    join() {
+        // ...
+    }
+}
+class Admin {
+    constructor(permissions) { }
+    scan() {
+        // ...
+    }
+}
+const user = new User("Max");
+const admin = new Admin(['ban', 'restore']);
+function init(entity) {
+    // .join() or .scan()
+    if (entity instanceof User) {
+        entity.join();
+        return;
+    }
+    entity.scan();
+}
