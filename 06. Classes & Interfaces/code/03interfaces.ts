@@ -107,3 +107,14 @@ interface AuthenticatableInterface {
 function authenticate(user: AuthenticatableInterface) {
   user.login()
 }
+
+
+// EXTENDING INTERFACES
+// --------------------------
+
+// You can also extend an interface with the "extends" keyword. So you can use inheritance with interfaces as well.
+// Difference with declaration merging : using the "extends" keyword not touching the original interface and create a new additional interface
+
+interface AuthenticatableAdmin extends Authenticatable {
+  role: 'admin' | 'superadmin';
+}
