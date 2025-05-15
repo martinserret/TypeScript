@@ -64,3 +64,21 @@ function init(entity) {
     }
     entity.scan();
 }
+// OUTSOURCING TYPE GUARDS & USING TYPE PREDICATES
+// ---------------------------------------------------------
+// When you create a function that check a type, Typescript doesn't return just a boolean but a type predicate. 
+// It is a boolean under the hood, but it is a boolean with "extra information" attached. 
+// Typescript understand that : if this function returns true then the value passed in argument has a specific type.
+function isFile(source) {
+    return source.type === 'file';
+}
+function loadDataOutsource(source) {
+    // Open + read file OR reach out to database server
+    if (isFile(source)) {
+        console.log(source.path); // Typescript understand that the source is FileSourceDiscriminated
+        // => use that to open the file locally
+        return;
+    }
+    console.log(source.connectionUrl); // Typescript understand that the source is DBSourceDiscriminated
+    // => to reach out to database
+}
