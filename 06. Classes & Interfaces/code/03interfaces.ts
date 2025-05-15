@@ -97,3 +97,13 @@ interface AuthenticatableInterface {
     // ...
   }
 }
+
+
+// ENSURING BASE TYPES WITH INTERFACES
+// ----------------------------------------
+
+// You can use an interface as a type to force anyone to pass an object that implement the interface
+
+function authenticate(user: AuthenticatableInterface) {
+  user.login()
+}
