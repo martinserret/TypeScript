@@ -13,4 +13,14 @@ function getLength(val) {
 // Typescript thinks that it's either a string or a number
 const numOfWords = getLength('Does this work?'); // Typescript don't understand that will be a string
 const numItems = getLength(['Sports', 'Cookies']); // Typescript don't understand that will be a number
-// numOfWords.length; //! error because Typescript thinks that value should be a number
+function getLengthOverload(val) {
+    if (typeof val === 'string') {
+        const numberOfWords = val.split(' ').length;
+        return `${numberOfWords} words`; // return a string
+    }
+    return val.length; // return a number
+}
+// Typescript thinks that it's either a string or a number
+const numberOfWords = getLengthOverload('Does this work?'); // Typescript understand that will be a string
+const numberItems = getLengthOverload(['Sports', 'Cookies']); // Typescript understand that will be a number
+numberOfWords.length; // works because Typescript knows that numberOfWords is a string
