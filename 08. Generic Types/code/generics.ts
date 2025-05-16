@@ -108,4 +108,27 @@ function mergeObjMultiple<T extends object, U extends object>(a: T, b: U) {
 }
 
 const mergedMultiple = mergeObjMultiple({ username: "Dwight" }, { age: 38 });
-console.log(merged);
+console.log(mergedMultiple);
+
+
+
+// WORKING WITH GENERIC CLASSES & INTERFACES
+// --------------------------------------------------------
+
+// You can also create generic classes and interfaces. 
+// Same way that you create generic types or generic functions
+
+interface Role<T> {
+  // ...
+}
+
+
+class User<T> {
+  constructor(public id: T) { }
+}
+
+const userString = new User('1')
+const userNumber = new User(1)
+
+console.log(userString)
+console.log(userNumber)

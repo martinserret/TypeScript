@@ -54,4 +54,13 @@ function mergeObjMultiple(a, b) {
     return Object.assign(Object.assign({}, a), b);
 }
 const mergedMultiple = mergeObjMultiple({ username: "Dwight" }, { age: 38 });
-console.log(merged);
+console.log(mergedMultiple);
+class User {
+    constructor(id) {
+        this.id = id;
+    }
+}
+const userString = new User('1');
+const userNumber = new User(1);
+console.log(userString);
+console.log(userNumber);
