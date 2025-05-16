@@ -6,8 +6,10 @@ let names = ['Dwight', 'Jim']; // Array<string> is a generic type (<string> is o
 let store = {};
 store.name = 'Dwight';
 store.isInstructor = true;
+console.log(store);
 let nameStore = {};
 nameStore.id = 112;
+console.log(nameStore);
 // GENERIC FUNCTIONS & INFERENCE
 // ------------------------------------
 // You're not limited to building generic types. You can also build generic functions.
@@ -23,7 +25,9 @@ function merge(a, b) {
 }
 const ids = merge(1, 2); // ids type is "number[]". Typescript is able to infer (déduire) that "merge" return an array of numbers here because it takes a look at the value types of the 2 arguments passed
 ids[0].toExponential(2); // Now you have the autocompletion for number type
+console.log(ids);
 const idsString = merge('Dwight', 'Jim'); // ids type is "string[]". Typescript infer that the arguments are strings
+console.log(idsString);
 // WORKING WITH MULTIPLE GENERIC PARAMETERS
 // --------------------------------------------------------
 // You're not limited to just one placeholder in generic type. 
@@ -33,3 +37,13 @@ function mergeMultiple(a, b) {
     return [a, b];
 }
 const idsMultiple = mergeMultiple(1, "Dwight"); // idsMultiple type is (string | number)[]
+console.log(idsMultiple);
+// GENERICS & CONTRAINTS
+// --------------------------------
+// Sometimes you want flexibility but you don't want all kinds of values for those placeholders.
+// Typescript allows you to add a so-called (soi-disant, prétendu) constraint to the placeholders with the keyword "extends"
+function mergeObj(a, b) {
+    return Object.assign(Object.assign({}, a), b);
+}
+const merged = mergeObj({ username: "Dwight" }, { age: 38 });
+console.log(merged);

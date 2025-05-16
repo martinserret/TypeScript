@@ -25,15 +25,17 @@ let names: Array<string> = ['Dwight', 'Jim']; // Array<string> is a generic type
 
 
 type DataStore<T> = {
-  [key: string]: T 
+  [key: string]: T
 };
 
 let store: DataStore<string | boolean> = {};
 store.name = 'Dwight';
 store.isInstructor = true;
+console.log(store);
 
 let nameStore: DataStore<number> = {};
-nameStore.id = 112; 
+nameStore.id = 112;
+console.log(nameStore);
 
 
 
@@ -59,8 +61,10 @@ function merge<T>(a: T, b: T) {
 
 const ids = merge(1, 2); // ids type is "number[]". Typescript is able to infer (déduire) that "merge" return an array of numbers here because it takes a look at the value types of the 2 arguments passed
 ids[0].toExponential(2); // Now you have the autocompletion for number type
+console.log(ids);
 
 const idsString = merge('Dwight', 'Jim'); // ids type is "string[]". Typescript infer that the arguments are strings
+console.log(idsString);
 
 
 
@@ -76,3 +80,18 @@ function mergeMultiple<T, U>(a: T, b: U) {
 }
 
 const idsMultiple = mergeMultiple(1, "Dwight");  // idsMultiple type is (string | number)[]
+console.log(idsMultiple);
+
+
+// GENERICS & CONTRAINTS
+// --------------------------------
+
+// Sometimes you want flexibility but you don't want all kinds of values for those placeholders.
+// Typescript allows you to add a so-called (soi-disant, prétendu) constraint to the placeholders with the keyword "extends"
+
+function mergeObj<T extends object>(a: T, b: T) {
+  return { ...a, ...b };
+}
+
+const merged = mergeObj({ username: "Dwight" }, { age: 38 });
+console.log(merged);
