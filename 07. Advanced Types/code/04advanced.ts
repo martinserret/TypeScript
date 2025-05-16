@@ -31,3 +31,14 @@ let roles = ["admin", "guest", "editor"] as const;
 // roles.push("visitor") //! Error because "roles" is readonly
 
 const firstRole = roles[0]; // Typescript knows that the role is "admin"
+
+
+
+// REVISITING THE RECORD TYPE
+// ----------------------------
+
+// It's essentially the same as "DataStore" in INDEX TYPES.
+// You can use <> to define keys and values types
+// Type<keysType, valuesTypes>
+
+let somObj: Record<string, number | boolean>; // Type: Record, keys: string, values: number or string
