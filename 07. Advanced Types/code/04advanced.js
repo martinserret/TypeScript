@@ -19,3 +19,22 @@ const firstRole = roles[0]; // Typescript knows that the role is "admin"
 // You can use <> to define keys and values types
 // Type<keysType, valuesTypes>
 let somObj; // Type: Record, keys: string, values: number or string
+// THE SATISFIES KEYWORD
+// --------------------------
+// satisfies : using "satisfies" instead of ":" says to Typescript to take a look at the value you assigning to your variable
+//  - It will check whether that value fits the type AND check the actual value assigned
+const dataEntries = {
+    entry1: 0.51,
+    entry2: -1.23
+};
+console.log(dataEntries.entry1);
+console.log(dataEntries.entry2);
+console.log(dataEntries.entry3); // valid because Typescript knows that the data entries is in the end an object with any string keys and number values
+// with no type inference "dataEntries.entry3" does not work
+const dataEntriesSatisfies = {
+    entry1: 0.51,
+    entry2: -1.23
+};
+console.log(dataEntriesSatisfies.entry1);
+console.log(dataEntriesSatisfies.entry2);
+// console.log(dataEntriesSatisfies.entry3); //! Error because "satisfies" check the value in dataEntriesSatisfies and there is not entry3
