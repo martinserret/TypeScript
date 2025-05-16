@@ -47,3 +47,11 @@ function mergeObj(a, b) {
 }
 const merged = mergeObj({ username: "Dwight" }, { age: 38 });
 console.log(merged);
+// CONTRAINTS & MULTIPLE GENERIC TYPES
+// ---------------------------------------------
+// When you have multiple object types, it could be interesting to have multiple placeholder
+function mergeObjMultiple(a, b) {
+    return Object.assign(Object.assign({}, a), b);
+}
+const mergedMultiple = mergeObjMultiple({ username: "Dwight" }, { age: 38 });
+console.log(merged);

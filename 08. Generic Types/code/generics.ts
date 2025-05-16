@@ -95,3 +95,17 @@ function mergeObj<T extends object>(a: T, b: T) {
 
 const merged = mergeObj({ username: "Dwight" }, { age: 38 });
 console.log(merged);
+
+
+
+// CONTRAINTS & MULTIPLE GENERIC TYPES
+// ---------------------------------------------
+
+// When you have multiple object types, it could be interesting to have multiple placeholder
+
+function mergeObjMultiple<T extends object, U extends object>(a: T, b: U) {
+  return { ...a, ...b };
+}
+
+const mergedMultiple = mergeObjMultiple({ username: "Dwight" }, { age: 38 });
+console.log(merged);
