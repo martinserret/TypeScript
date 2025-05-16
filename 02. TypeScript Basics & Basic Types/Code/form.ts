@@ -28,7 +28,7 @@ console.log(inputEle?.value); // Question mark "?" (Javascript feature) tells th
 // TYPE CASTING
 ///////////////
 
-// Type costing (or type assertion) is a concept of converting some type to another type withe the operator "as"
+// Type casting (or type assertion) is a concept of converting some type to another type withe the operator "as"
 
 const inputElem = document.getElementById('user-name') as HTMLInputElement | null; // We telling Typescript that getElementById will return an HTMLInputElement or null
 
