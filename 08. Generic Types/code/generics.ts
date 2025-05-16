@@ -62,3 +62,17 @@ ids[0].toExponential(2); // Now you have the autocompletion for number type
 
 const idsString = merge('Dwight', 'Jim'); // ids type is "string[]". Typescript infer that the arguments are strings
 
+
+
+// WORKING WITH MULTIPLE GENERIC PARAMETERS
+// --------------------------------------------------------
+
+// You're not limited to just one placeholder in generic type. 
+// If you use only one placeholder: all your values will have the same type
+// If you use several placeholders: you can mix types 
+
+function mergeMultiple<T, U>(a: T, b: U) {
+  return [a, b];
+}
+
+const idsMultiple = mergeMultiple(1, "Dwight");  // idsMultiple type is (string | number)[]
