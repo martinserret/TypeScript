@@ -1,23 +1,22 @@
 class ListNode<T> {
-  next?: ListNode<T> // Optional because if this node is the last, there is not next node
+  next?: ListNode<T>; // Optional because if this node is the last, there is not next node
 
   constructor(public value: T) { }
 }
 
 class LinkedList<T> {
   private root?: ListNode<T>;
+  private tail?: ListNode<T>;
   private length = 0;
 
   add(value: T) {
     const node = new ListNode(value);
-    if (!this.root) {
+    if (!this.root || !this.tail) {
       this.root = node;
+      this.tail = node;
     } else {
-      let current = this.root;
-      while (current.next) {
-        current = current.next;
-      }
-      current.next = node;
+      this.tail.next = node; // Update the property next of the node 
+      this.tail = node; // Update the tail (last node) of the LinkedList
     }
     this.length++;
   }
