@@ -16,3 +16,26 @@ type OtherName = typeof otherName; // Here the type of otherName is string becau
 
 const noChoiceName: UserName = "Dwight"; // Can only be "Dwight"
 const choiceName: OtherName = "Pamela"; // Can be any string
+
+
+// TYPEOF USEFUL EXAMPLE
+// ----------------------------
+
+const settings = {
+  difficulty: 'easy',
+  minLevel: 10,
+  didStart: false,
+  players: ['Michael, Ryan']
+};
+
+type Settings = typeof settings; // the type Settings is automatically derived by Typescript and "typeof" and create a type object with key/value pairs.
+
+function loadData(settings: Settings) {
+  // ...
+}
+
+function saveData(s: typeof settings) { // Shorter way
+  // ...
+}
+
+loadData(settings);

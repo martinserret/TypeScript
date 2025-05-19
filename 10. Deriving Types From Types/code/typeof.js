@@ -10,3 +10,18 @@ let otherName = "Jim";
 console.log(typeof userName); // Javascript "typeof"
 const noChoiceName = "Dwight"; // Can only be "Dwight"
 const choiceName = "Pamela"; // Can be any string
+// TYPEOF USEFUL EXAMPLE
+// ----------------------------
+const settings = {
+    difficulty: 'easy',
+    minLevel: 10,
+    didStart: false,
+    players: ['Michael, Ryan']
+};
+function loadData(settings) {
+    // ...
+}
+function saveData(s) {
+    // ...
+}
+loadData(settings);
