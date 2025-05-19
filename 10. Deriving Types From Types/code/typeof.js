@@ -25,3 +25,14 @@ function saveData(s) {
     // ...
 }
 loadData(settings);
+// TYPEOF FUNCTION EXAMPLE
+// ------------------------------
+function sum(a, b) {
+    return a + b;
+}
+function subtract(a, b) {
+    return a - b;
+}
+function performMathAction(cb) {
+    // some code...
+}
