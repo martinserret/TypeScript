@@ -4,7 +4,7 @@
 // typeof: Javascript operator. There is also a "typeof" operator in Typescript
 //  - using JS or TS "typeof" depends on where you use it
 //  - JS typeof: in a place where we using JS
-//  - TS typeof: in a place where we using TS
+//  - TS typeof: in a place where we using TS. Allows to derive types from values
 const userName = "Dwight";
 let otherName = "Jim";
 console.log(typeof userName); // Javascript "typeof"
