@@ -73,6 +73,25 @@
 // The context object of method decorator has more information than the context of class decorator
 
 
+// USING DECORATORS TO SOLVE A COMMON PROBLEM 
+// ------------------------------------------------
+
+// The decorator autobind should solve a certain kind of problem you could sometimes encounter when working with classes and object in Javascript.
+// That's a problem related to the "this" keyword and how Javascript works :
+//  - for some reason I want to store a pointer to a method in a separate variable or constant (in our example : const greet = dwight.greed)
+//  - this is something i might need to do in order to then pass this pointer method as an argument to another function (as a callback function for example)
+//  - if now I try to execute this method, the properties of the method can't be read and I will have an error (in our example: greed() will return an error because "this.name" cannot be read)
+//  - the problem is how "this" keyword works in JS, it's points to the thing on which this function is executed (in our example: greet is not directly executed on something and "this" is "undefined")
+
+
+// IMPLEMENTING A DECORATOR-BASED SOLUTION AUTOBIND
+
+// This problem can be solve with a decorator.
+// autobind decorator will automatically bind the method is attached to, to the class the method belongs to.
+// "addInitializer" method is a utility method provided by the ctx object to allow you to run code related to the thing (class, method, etc.) you are attaching the decorator to after this thing is done initializing
+// in other words, "addInitializer" giving you access to the constructor of the class
+
+
 
 function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
   // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
@@ -93,6 +112,10 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
 function autobind(target: Function, ctx: ClassMethodDecoratorContext) {
   console.log(target);
   console.log(ctx);
+
+  ctx.addInitializer(function (this: any) {
+    this[ctx.name] = this[ctx.name].bind(this)
+  })
 }
 
 @logger
@@ -106,4 +129,7 @@ class Person {
 }
 
 const dwight = new Person();
-const jim = new Person();
+
+// autobind
+const greet = dwight.greet;
+greet();
