@@ -1,6 +1,40 @@
 "use strict";
 // WHAT ARE DECORATORS
 // -----------------------------
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+};
+var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for (var i = decorators.length - 1; i >= 0; i--) {
+        var context = {};
+        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        }
+        else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+};
 // Decorators are metaprogramming feature.
 // Metaprogramming is simply code that you write that interacts with other code (other code makes up the actual application)
 // Decorator start with "@" symbol before its name, can have arguments and can be attached to things :
@@ -20,14 +54,14 @@
 //  - fields (Field Decorators)
 //  - getters (Getter Decorators)
 //  - setters (Setter Decorators)
-// FIRST DECORATOR
+// FIRST DECORATOR: CLASS DECORATOR (logger)
 // ----------------------------
 // In JS, decorators are just functions written in a certain way, receiving a certain amount of arguments and so on.
 // decorator: logger => log information about the class attached
 // ECMAScript decorators 2 arguments: 
 //  - target: the thing you attaching to
 //  - ctx: context object that give you extra information about the thing you're attaching the decorator to. The type of ctx is ClassDecoratorContext.
-// EDIT A CLASS WITH A DECORATOR
+// EDIT A CLASS WITH A DECORATOR (logger)
 // -----------------------------------
 // You can use decorators to change the thing you are attaching to them to (a class for example).
 // Example: with a class, you have to returning a new class (anonymous) that's based on the old class (extends)
@@ -35,25 +69,56 @@
 // ..args: any[] means that you want to use your logger on any kind of class so I accept any amount of arguments.
 // => any because I don't know in advance to which kind of class I want to attach my decorator
 // extends new (...args: any[]) => any :  express that you wanna base your type "T" on some class that accepts any kind of arguments in its constructor where you then return any kind of value 
+// DECORATOR CODE EXECUTION(logger)
+// ----------------------------------
+// class definition: executed when JS parsed the code and if the decorator is attached to a class
+// class instantiation: executed for each new instantiation
+// METHOD DECORATOR (autobind)
+// -------------------------
+// In a method decorator, the type of the parameter "target" is "Function" or "(...args: any[]) => any" because a method is a class function.
+// In a method decorator, the type of the parameter "ctx" is "ClassMethodDecoratorContext"
 function logger(target, ctx) {
-    // Log only one time when Javascript parsed the code=> class definition (no need to create an instance)
+    // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
     console.log("logger decorator");
     console.log(target);
     console.log(ctx);
     return class extends target {
         constructor(...args) {
-            // Log for every instantiation of the class => class instantiation
+            // executed for every instantiation of the class => class instantiation
             super(...args);
             console.log('class constructor');
             console.log(this);
         }
     };
 }
-class Person {
-    name = "Dwight";
-    greet() {
-        console.log(`Hi, I am ${this.name}`);
-    }
+function autobind(target, ctx) {
+    console.log(target);
+    console.log(ctx);
 }
+let Person = (() => {
+    let _classDecorators = [logger];
+    let _classDescriptor;
+    let _classExtraInitializers = [];
+    let _classThis;
+    let _instanceExtraInitializers = [];
+    let _greet_decorators;
+    var Person = class {
+        static { _classThis = this; }
+        static {
+            const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
+            _greet_decorators = [autobind];
+            __esDecorate(this, null, _greet_decorators, { kind: "method", name: "greet", static: false, private: false, access: { has: obj => "greet" in obj, get: obj => obj.greet }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
+            Person = _classThis = _classDescriptor.value;
+            if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
+            __runInitializers(_classThis, _classExtraInitializers);
+        }
+        name = (__runInitializers(this, _instanceExtraInitializers), "Dwight");
+        greet() {
+            console.log(`Hi, I am ${this.name}`);
+        }
+    };
+    return Person = _classThis;
+})();
 const dwight = new Person();
 const jim = new Person();

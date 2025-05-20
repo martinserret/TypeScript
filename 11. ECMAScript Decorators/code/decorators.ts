@@ -29,7 +29,7 @@
 //  - setters (Setter Decorators)
 
 
-// FIRST DECORATOR
+// FIRST DECORATOR: CLASS DECORATOR (logger)
 // ----------------------------
 
 // In JS, decorators are just functions written in a certain way, receiving a certain amount of arguments and so on.
@@ -41,7 +41,7 @@
 //  - ctx: context object that give you extra information about the thing you're attaching the decorator to. The type of ctx is ClassDecoratorContext.
 
 
-// EDIT A CLASS WITH A DECORATOR
+// EDIT A CLASS WITH A DECORATOR (logger)
 // -----------------------------------
 
 // You can use decorators to change the thing you are attaching to them to (a class for example).
@@ -53,15 +53,36 @@
 
 // extends new (...args: any[]) => any :  express that you wanna base your type "T" on some class that accepts any kind of arguments in its constructor where you then return any kind of value 
 
+
+// DECORATOR CODE EXECUTION(logger)
+// ----------------------------------
+
+// class definition: executed when JS parsed the code and if the decorator is attached to a class
+// class instantiation: executed for each new instantiation
+
+
+// METHOD DECORATOR (autobind)
+// -------------------------
+
+// In a method decorator, the type of the parameter "target" is "Function" or "(...args: any[]) => any" because a method is a class function.
+// In a method decorator, the type of the parameter "ctx" is "ClassMethodDecoratorContext"
+
+// methods are initialized before the class initialization is done (a class is initialized once the things they have been attached to are done initializing)
+// => log in method are displayed before log class
+
+// The context object of method decorator has more information than the context of class decorator
+
+
+
 function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
-  // Log only one time when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
+  // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
   console.log("logger decorator")
   console.log(target)
   console.log(ctx)
 
   return class extends target { // return a new class inside the logger function a replace the old one
     constructor(...args: any[]) {
-      // Log for every instantiation of the class => class instantiation
+      // executed for every instantiation of the class => class instantiation
       super(...args);
       console.log('class constructor');
       console.log(this);
@@ -69,10 +90,16 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
   }
 }
 
+function autobind(target: Function, ctx: ClassMethodDecoratorContext) {
+  console.log(target);
+  console.log(ctx);
+}
+
 @logger
 class Person {
   name = "Dwight";
 
+  @autobind
   greet() {
     console.log(`Hi, I am ${this.name}`)
   }
