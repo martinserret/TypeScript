@@ -61,10 +61,21 @@ var __runInitializers = (this && this.__runInitializers) || function (thisArg, i
 // ECMAScript decorators 2 arguments: 
 //  - target: the thing you attaching to
 //  - ctx: context object that give you extra information about the thing you're attaching the decorator to. The type of ctx is ClassDecoratorContext.
+// EDIT A CLASS WITH A DECORATOR
+// -----------------------------------
+// You can use decorators to change the thing you are attaching to them to (a class for example).
+// Example: with a class, you have to returning a new class (anonymous) that's based on the old class (extends)
+// To do that, you have to use a generic type that extends a class type. With Typescript, the way to interact with a class is: new () =>
+// ..args: any[] means that you want to use your logger on any kind of class so I accept any amount of arguments.
+// => any because I don't know in advance to which kind of class I want to attach my decorator
+// extends new (...args: any[]) => any :  express that you wanna base your type "T" on some class that accepts any kind of arguments in its constructor where you then return any kind of value 
 function logger(target, ctx) {
     console.log("logger decorator");
     console.log(target);
     console.log(ctx);
+    return class extends target {
+        age = 35;
+    };
 }
 let Person = (() => {
     let _classDecorators = [logger];
@@ -87,3 +98,6 @@ let Person = (() => {
     };
     return Person = _classThis;
 })();
+const dwight = new Person();
+dwight.greet();
+console.log(dwight); // The object has an age
