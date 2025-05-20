@@ -20,3 +20,8 @@ type ReturnValueType<T> = T extends (...args: any[]) => infer RV ? RV : never
 
 type AddFnReturnValueType = ReturnValueType<AddFn>;
 
+
+// There are utility types provide by Typescript that can help you to make what we learn in this section
+// Example: ReturnType
+
+type AddFonctionReturnValueType = ReturnType<AddFn>; // Exactly the same as ReturnValueType but provide by Typescript
