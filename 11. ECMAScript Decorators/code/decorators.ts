@@ -54,12 +54,18 @@
 // extends new (...args: any[]) => any :  express that you wanna base your type "T" on some class that accepts any kind of arguments in its constructor where you then return any kind of value 
 
 function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
+  // Log only one time when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
   console.log("logger decorator")
   console.log(target)
   console.log(ctx)
 
   return class extends target { // return a new class inside the logger function a replace the old one
-    age = 35;
+    constructor(...args: any[]) {
+      // Log for every instantiation of the class => class instantiation
+      super(...args);
+      console.log('class constructor');
+      console.log(this);
+    }
   }
 }
 
@@ -73,5 +79,4 @@ class Person {
 }
 
 const dwight = new Person();
-dwight.greet();
-console.log(dwight); // The object has an age
+const jim = new Person();
