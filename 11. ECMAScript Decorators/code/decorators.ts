@@ -73,7 +73,7 @@
 // The context object of method decorator has more information than the context of class decorator
 
 
-// USING DECORATORS TO SOLVE A COMMON PROBLEM 
+// USING DECORATORS TO SOLVE A COMMON PROBLEM (autobind)
 // ------------------------------------------------
 
 // The decorator autobind should solve a certain kind of problem you could sometimes encounter when working with classes and object in Javascript.
@@ -84,7 +84,7 @@
 //  - the problem is how "this" keyword works in JS, it's points to the thing on which this function is executed (in our example: greet is not directly executed on something and "this" is "undefined")
 
 
-// IMPLEMENTING A DECORATOR-BASED SOLUTION AUTOBIND
+// IMPLEMENTING A DECORATOR-BASED SOLUTION AUTOBIND (autobind)
 
 // This problem can be solve with a decorator.
 // autobind decorator will automatically bind the method is attached to, to the class the method belongs to.
@@ -93,10 +93,23 @@
 
 
 
-// REPLACING METHODS WITH DECORATORS
+// REPLACING METHODS WITH DECORATORS (autobind)
 // -----------------------------------------
 
 // Just as with the class decorator, the method decorator can also return an updated version of the method your are binding it to or a version that replaces the original method.
+
+
+
+// THE FIELD DECORATOR (fieldLogger)
+// ----------------------------
+
+// A decorator that can be added to fields (property) of a class. Example : function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) 
+//  - [target: undefined] the target is always "undefined" because the decorator code will be executed before the field is done initializing
+//  - The context object of field decorator has more information than the context of class decorator
+
+// In a field decorator, you can also return something to change the thing you're attaching the decorator to. To change the value you have to return a function that will be executed by JS that will be 
+// executed after the field to which this decorator has been attached has been initialized. It is a function that will receive the initial value and that should return the value you wanna set instead.
+// return (initialValue: any) => {}
 
 function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
   // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
@@ -128,8 +141,21 @@ function autobind(target: Function, ctx: ClassMethodDecoratorContext) { // decor
   }
 }
 
+function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) {
+  console.log("fieldLogger decorator")
+  console.log(target);
+  console.log(ctx);
+
+  return (initialValue: any) => {
+    console.log("Initial value from fieldLogger")
+    console.log(initialValue)
+    return 'Jim';
+  }
+}
+
 @logger
 class Person {
+  @fieldLogger
   name = "Dwight";
 
   @autobind
