@@ -64,7 +64,7 @@ function WithTemplate(template: string, hookId: string) {
 }
 
 
-@Logger('LOGGING - PERSON')
+@Logger('Logging - person')
 @WithTemplate("<h1>My person object </h1>", "app")
 class Person {
   name = "Dwight"
@@ -76,3 +76,44 @@ class Person {
 
 const person = new Person();
 console.log(person);
+
+
+
+// DIVING INTO PROPERTY DECORATORS
+// -------------------------------------
+
+// We can use decorators with properties
+//  - 2 arguments : target and propertyName
+//  - execute when class definition is registered by JS
+
+
+function Log(target: any, propertyName: string | Symbol) {
+  console.log('')
+  console.log('PROPERTY DECORATOR')
+  console.log(target, propertyName);
+}
+
+class Product {
+  @Log
+  title: string;
+  private _price: number;
+
+  constructor(title: string, price: number) {
+    this.title = title;
+    this._price = price;
+  }
+
+  getPriceWithTax(tax: number) {
+    return this._price * (1 + tax);
+  }
+
+  set price(value: number) {
+    if (value > 0) {
+      this._price = value;
+    } else {
+      throw new Error("Invalid price - should be positive")
+    }
+  }
+}
+
+
