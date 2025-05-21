@@ -96,14 +96,18 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
 // REPLACING METHODS WITH DECORATORS (autobind)
 // -----------------------------------------
 // Just as with the class decorator, the method decorator can also return an updated version of the method your are binding it to or a version that replaces the original method.
-// THE FIELD DECORATOR (fieldLogger)
+// THE FIELD DECORATOR (jimDecorator)
 // ----------------------------
-// A decorator that can be added to fields (property) of a class. Example : function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) 
+// A decorator that can be added to fields (property) of a class. Example : function replacer(target: undefined, ctx: ClassFieldDecoratorContext) 
 //  - [target: undefined] the target is always "undefined" because the decorator code will be executed before the field is done initializing
 //  - The context object of field decorator has more information than the context of class decorator
 // In a field decorator, you can also return something to change the thing you're attaching the decorator to. To change the value you have to return a function that will be executed by JS that will be 
 // executed after the field to which this decorator has been attached has been initialized. It is a function that will receive the initial value and that should return the value you wanna set instead.
 // return (initialValue: any) => {}
+// BUILDING CONFIGURABLE DECORATORS WITH FACTORIES (replacer)
+// ----------------------------------------------------
+// A decorator factory is just a function that produces a decorator. For example, with our "replacer", it could be interesting to executing this decorator as a function and pass my nex value as an argument : replacer("newName")
+// To use a decorator like this, you must wrap it in another function : a factory function
 function logger(target, ctx) {
     // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
     console.log("logger decorator");
@@ -129,14 +133,26 @@ function autobind(target, ctx) {
         target.apply(this);
     };
 }
-function fieldLogger(target, ctx) {
-    console.log("fieldLogger decorator");
+function jimDecorator(target, ctx) {
+    console.log("replacer decorator");
     console.log(target);
     console.log(ctx);
     return (initialValue) => {
-        console.log("Initial value from fieldLogger");
+        console.log("Initial value from jimDecorator");
         console.log(initialValue);
         return 'Jim';
+    };
+}
+function replacer(initValue) {
+    return function replacerDecorator(target, ctx) {
+        console.log("replacer decorator");
+        console.log(target);
+        console.log(ctx);
+        return (initialValue) => {
+            console.log("Initial value from replacerDecorator");
+            console.log(initialValue);
+            return initValue;
+        };
     };
 }
 let Person = (() => {
@@ -148,26 +164,32 @@ let Person = (() => {
     let _name_decorators;
     let _name_initializers = [];
     let _name_extraInitializers = [];
+    let _job_decorators;
+    let _job_initializers = [];
+    let _job_extraInitializers = [];
     let _greet_decorators;
     var Person = class {
         static { _classThis = this; }
         static {
             const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-            _name_decorators = [fieldLogger];
+            _name_decorators = [jimDecorator];
+            _job_decorators = [replacer('Regional Manager')];
             _greet_decorators = [autobind];
             __esDecorate(this, null, _greet_decorators, { kind: "method", name: "greet", static: false, private: false, access: { has: obj => "greet" in obj, get: obj => obj.greet }, metadata: _metadata }, null, _instanceExtraInitializers);
             __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+            __esDecorate(null, null, _job_decorators, { kind: "field", name: "job", static: false, private: false, access: { has: obj => "job" in obj, get: obj => obj.job, set: (obj, value) => { obj.job = value; } }, metadata: _metadata }, _job_initializers, _job_extraInitializers);
             __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
             Person = _classThis = _classDescriptor.value;
             if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             __runInitializers(_classThis, _classExtraInitializers);
         }
         name = (__runInitializers(this, _instanceExtraInitializers), __runInitializers(this, _name_initializers, "Dwight"));
+        job = (__runInitializers(this, _name_extraInitializers), __runInitializers(this, _job_initializers, "Paper salesman"));
         greet() {
-            console.log(`Hi, I am ${this.name}`);
+            console.log(`Hi, I am ${this.name} and my job is ${this.job}`);
         }
         constructor() {
-            __runInitializers(this, _name_extraInitializers);
+            __runInitializers(this, _job_extraInitializers);
         }
     };
     return Person = _classThis;

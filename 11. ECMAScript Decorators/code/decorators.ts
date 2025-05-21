@@ -18,6 +18,7 @@
 //  - Experimental: build with a different syntax and only available in Typescript. Set to "true" the flag "experimentalDecorators" in TS config file.
 
 
+
 // TYPES OF DECORATORS
 // ------------------------
 
@@ -27,6 +28,7 @@
 //  - fields (Field Decorators)
 //  - getters (Getter Decorators)
 //  - setters (Setter Decorators)
+
 
 
 // FIRST DECORATOR: CLASS DECORATOR (logger)
@@ -39,6 +41,7 @@
 // ECMAScript decorators 2 arguments: 
 //  - target: the thing you attaching to
 //  - ctx: context object that give you extra information about the thing you're attaching the decorator to. The type of ctx is ClassDecoratorContext.
+
 
 
 // EDIT A CLASS WITH A DECORATOR (logger)
@@ -54,11 +57,13 @@
 // extends new (...args: any[]) => any :  express that you wanna base your type "T" on some class that accepts any kind of arguments in its constructor where you then return any kind of value 
 
 
+
 // DECORATOR CODE EXECUTION(logger)
 // ----------------------------------
 
 // class definition: executed when JS parsed the code and if the decorator is attached to a class
 // class instantiation: executed for each new instantiation
+
 
 
 // METHOD DECORATOR (autobind)
@@ -73,6 +78,7 @@
 // The context object of method decorator has more information than the context of class decorator
 
 
+
 // USING DECORATORS TO SOLVE A COMMON PROBLEM (autobind)
 // ------------------------------------------------
 
@@ -82,6 +88,7 @@
 //  - this is something i might need to do in order to then pass this pointer method as an argument to another function (as a callback function for example)
 //  - if now I try to execute this method, the properties of the method can't be read and I will have an error (in our example: greed() will return an error because "this.name" cannot be read)
 //  - the problem is how "this" keyword works in JS, it's points to the thing on which this function is executed (in our example: greet is not directly executed on something and "this" is "undefined")
+
 
 
 // IMPLEMENTING A DECORATOR-BASED SOLUTION AUTOBIND (autobind)
@@ -100,16 +107,24 @@
 
 
 
-// THE FIELD DECORATOR (fieldLogger)
+// THE FIELD DECORATOR (jimDecorator)
 // ----------------------------
 
-// A decorator that can be added to fields (property) of a class. Example : function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) 
+// A decorator that can be added to fields (property) of a class. Example : function replacer(target: undefined, ctx: ClassFieldDecoratorContext) 
 //  - [target: undefined] the target is always "undefined" because the decorator code will be executed before the field is done initializing
 //  - The context object of field decorator has more information than the context of class decorator
 
 // In a field decorator, you can also return something to change the thing you're attaching the decorator to. To change the value you have to return a function that will be executed by JS that will be 
 // executed after the field to which this decorator has been attached has been initialized. It is a function that will receive the initial value and that should return the value you wanna set instead.
 // return (initialValue: any) => {}
+
+
+
+// BUILDING CONFIGURABLE DECORATORS WITH FACTORIES (replacer)
+// ----------------------------------------------------
+
+// A decorator factory is just a function that produces a decorator. For example, with our "replacer", it could be interesting to executing this decorator as a function and pass my nex value as an argument : replacer("newName")
+// To use a decorator like this, you must wrap it in another function : a factory function
 
 function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
   // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
@@ -141,26 +156,43 @@ function autobind(target: Function, ctx: ClassMethodDecoratorContext) { // decor
   }
 }
 
-function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) {
-  console.log("fieldLogger decorator")
+function jimDecorator(target: undefined, ctx: ClassFieldDecoratorContext) { // field decorator
+  console.log("jimDecorator decorator")
   console.log(target);
   console.log(ctx);
 
   return (initialValue: any) => {
-    console.log("Initial value from fieldLogger")
+    console.log("Initial value from jimDecorator")
     console.log(initialValue)
     return 'Jim';
   }
 }
 
+function replacer<T>(initValue: T) { // factory function
+  return function replacerDecorator(target: undefined, ctx: ClassFieldDecoratorContext) { // field decorator
+    console.log("replacer decorator")
+    console.log(target);
+    console.log(ctx);
+
+    return (initialValue: any) => {
+      console.log("Initial value from replacerDecorator")
+      console.log(initialValue)
+      return initValue;
+    }
+  }
+}
+
 @logger
 class Person {
-  @fieldLogger
+  @jimDecorator
   name = "Dwight";
+
+  @replacer('Regional Manager')
+  job = "Paper salesman";
 
   @autobind
   greet() {
-    console.log(`Hi, I am ${this.name}`)
+    console.log(`Hi, I am ${this.name} and my job is ${this.job}`)
   }
 }
 
