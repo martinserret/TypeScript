@@ -26,7 +26,25 @@
 // if you don't use an argument in a function, you can use the symbol "_" to tell Typescript : "I know I get this argument but I don't need it"
 // WithTemplate decorator: allow to add html element in your html file by passing an html id (here h1 element where we add the name of the Person object)
 
+
+// ADDING MULTIPLE DECORATOR
+// -------------------------------
+
+// You can add more than one decorator to a class, a function, etc.
+// Order of execution : bottom up //! we talk about decorator functions inside the factory
+//  - @WithTemplate first
+//  - @Logger second
+
+// The decorator factories run earlier :
+//  - decorator factory TEMPLATE
+//  - then decorator LOGGER
+//  - then the decorator function inside the decorator factory TEMPLATE
+//  - then the decorator function inside the decorator factory LOGGER
+
+
+
 function Logger(logString: string) {
+  console.log("LOGGER FACTORY");
   return function (target: Function) {
     console.log(logString)
     console.log(target)
@@ -34,6 +52,7 @@ function Logger(logString: string) {
 }
 
 function WithTemplate(template: string, hookId: string) {
+  console.log("TEMPLATE FACTORY");
   return function (constructor: any) {
     const hookEl = document.getElementById(hookId);
     const p = new constructor(); // here constructor is the class Person
@@ -45,7 +64,7 @@ function WithTemplate(template: string, hookId: string) {
 }
 
 
-// @Logger('LOGGING - PERSON')
+@Logger('LOGGING - PERSON')
 @WithTemplate("<h1>My person object </h1>", "app")
 class Person {
   name = "Dwight"
