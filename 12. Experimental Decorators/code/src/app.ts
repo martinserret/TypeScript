@@ -1,4 +1,4 @@
-// A FIRST CLASS DECORATOR (Logger)
+// A FIRST CLASS DECORATOR (return function inside Logger)
 // ----------------------------
 
 // In tsconfig.json, uncomment "experimentalDecorators": true"
@@ -11,12 +11,22 @@
 //  - decorator has only 1 argument: target (the name can also be constructor)
 //  - target type for a class is Function
 
-function Logger(target: Function) {
-  console.log("Logging...")
-  console.log(target)
+
+// WORKING WITH DECORATOR FACTORIES (Logger)
+// ----------------------------------
+
+// decorator factory : return a decorator function but allows us to configure it when we assign it as a decorator to something
+//  - a decorator factory accept arguments and pass it to decorator functions that it execute
+//  - then we you call the decorator factory, you can pass customize values which will be used by inner returned decorator function
+
+function Logger(logString: string) {
+  return function (target: Function) {
+    console.log(logString)
+    console.log(target)
+  };
 }
 
-@Logger
+@Logger('LOGGING - PERSON')
 class Person {
   name = "Dwight"
 
