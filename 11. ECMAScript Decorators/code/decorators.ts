@@ -93,6 +93,11 @@
 
 
 
+// REPLACING METHODS WITH DECORATORS
+// -----------------------------------------
+
+// Just as with the class decorator, the method decorator can also return an updated version of the method your are binding it to or a version that replaces the original method.
+
 function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
   // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
   console.log("logger decorator")
@@ -109,13 +114,18 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
   }
 }
 
-function autobind(target: Function, ctx: ClassMethodDecoratorContext) {
-  console.log(target);
+function autobind(target: Function, ctx: ClassMethodDecoratorContext) { // decorator executed after the method is done initializing
+  console.log(target); // target is the original method (without being tweaked)
   console.log(ctx);
 
   ctx.addInitializer(function (this: any) {
-    this[ctx.name] = this[ctx.name].bind(this)
+    this[ctx.name] = this[ctx.name].bind(this) // tweak the method in the object based on the class
   })
+
+  return function (this: any) {
+    console.log("Executing original function");
+    target.apply(this);
+  }
 }
 
 @logger

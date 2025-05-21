@@ -93,6 +93,9 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
 // autobind decorator will automatically bind the method is attached to, to the class the method belongs to.
 // "addInitializer" method is a utility method provided by the ctx object to allow you to run code related to the thing (class, method, etc.) you are attaching the decorator to after this thing is done initializing
 // in other words, "addInitializer" giving you access to the constructor of the class
+// REPLACING METHODS WITH DECORATORS
+// -----------------------------------------
+// Just as with the class decorator, the method decorator can also return an updated version of the method your are binding it to or a version that replaces the original method.
 function logger(target, ctx) {
     // executed when Javascript parsed the code and if the decorator is attached to a class => class definition (no need to create an instance)
     console.log("logger decorator");
@@ -108,11 +111,15 @@ function logger(target, ctx) {
     };
 }
 function autobind(target, ctx) {
-    console.log(target);
+    console.log(target); // target is the original method (without being tweaked)
     console.log(ctx);
     ctx.addInitializer(function () {
-        this[ctx.name] = this[ctx.name].bind(this);
+        this[ctx.name] = this[ctx.name].bind(this); // tweak the method in the object based on the class
     });
+    return function () {
+        console.log("Executing original function");
+        target.apply(this);
+    };
 }
 let Person = (() => {
     let _classDecorators = [logger];
