@@ -79,18 +79,56 @@ console.log(person);
 
 
 
-// DIVING INTO PROPERTY DECORATORS
+// DIVING INTO PROPERTY DECORATORS (Log)
 // -------------------------------------
 
 // We can use decorators with properties
-//  - 2 arguments : target and propertyName
+//  - 2 arguments: target and propertyName
 //  - execute when class definition is registered by JS
 
 
+// ACCESSOR, METHOD & PARAMETER DECORATORS
+// -------------------------------------
+
+// We can use decorators with accessors :
+//  - 3 arguments: target, name and descriptor (PropertyDescriptor)
+
+// We can use decorators with methods :
+//  - 3 arguments: target, name and descriptor (PropertyDescriptor)
+
+// We can use decorators with parameters :
+//  - 3 arguments: target, name (of the method where the parameter is used) and position of this argument (number)
+
+
 function Log(target: any, propertyName: string | Symbol) {
-  console.log('')
-  console.log('PROPERTY DECORATOR')
-  console.log(target, propertyName);
+  console.log('');
+  console.log('PROPERTY DECORATOR');
+  console.log(target);
+  console.log(propertyName);
+}
+
+function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
+  console.log('');
+  console.log('ACCESSOR DECORATOR');
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+function Log3(target: any, name: string | symbol, descriptor: PropertyDescriptor) {
+  console.log('');
+  console.log('METHOD DECORATOR');
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+function Log4(target: any, name: string | symbol, position: number) {
+  console.log('');
+  console.log('PARAMETER DECORATOR');
+  console.log(target);
+  console.log(name);
+  console.log(position);
 }
 
 class Product {
@@ -103,10 +141,12 @@ class Product {
     this._price = price;
   }
 
-  getPriceWithTax(tax: number) {
+  @Log3
+  getPriceWithTax(@Log4 tax: number) {
     return this._price * (1 + tax);
   }
 
+  @Log2
   set price(value: number) {
     if (value > 0) {
       this._price = value;
@@ -115,5 +155,6 @@ class Product {
     }
   }
 }
+
 
 
