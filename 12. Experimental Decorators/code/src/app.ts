@@ -166,3 +166,46 @@ class Product {
 
 const p1 = new Product('Book', 19);
 const p2 = new Product('Keyboard', 55);
+
+
+
+// RETURNING (AND CHANGING) A CLASS IN A CLASS DECORATOR
+// ----------------------------------------------------------------
+
+// Inside a decorator function, you can return something :
+//  - In a class decorator you can return a new constructor function which will replace the old one 
+//  - This new constructor replace the old one. That allow us to add some extra logic
+//  - This new constructor run when the class is instantiated (not defined)
+
+// The decorator function should be a generic function that extends a constructor function with a new special type with any kind of arguments will produce an object 
+// with a "name" property which will be of type string
+
+
+function WithTemplate2(template: string, hookId: string) {
+  console.log("TEMPLATE FACTORY 2");
+  return function <T extends { new(...args: any[]): { name: string } }>(originalConstructor: T) {
+    return class extends originalConstructor { // new class based on the original constructor function (keep all the properties)
+      constructor(..._: any[]) {
+        super();
+
+        const hookEl = document.getElementById(hookId);
+        if (hookEl) {
+          hookEl.innerHTML = template
+          hookEl.querySelector('h1')!.textContent += this.name // Here we access to the name of the extends constructor
+        }
+      }
+    }
+  }
+}
+
+@WithTemplate2("<h1>My person object </h1>", "app")
+class Person2 {
+  name = "Jim"
+
+  constructor() {
+    console.log("Creating person object...");
+  }
+}
+
+const person2 = new Person2();
+console.log(person2);
