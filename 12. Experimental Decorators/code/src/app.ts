@@ -100,6 +100,14 @@ console.log(person);
 //  - 3 arguments: target, name (of the method where the parameter is used) and position of this argument (number)
 
 
+// WHEN DO DECORATORS EXECUTE
+// --------------------------------
+
+// - First of all, they're all running without be instantiating. 
+// - They're all executed when you defined the class they are linked to
+
+
+
 function Log(target: any, propertyName: string | Symbol) {
   console.log('');
   console.log('PROPERTY DECORATOR');
@@ -156,5 +164,5 @@ class Product {
   }
 }
 
-
-
+const p1 = new Product('Book', 19);
+const p2 = new Product('Keyboard', 55);
