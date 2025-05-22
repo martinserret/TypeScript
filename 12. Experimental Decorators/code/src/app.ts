@@ -219,7 +219,7 @@ console.log(person2);
 // You can return a brand new property descriptor (configurable, enumerable, get or set)
 
 
-// EXAMPLE CREATING AN AUTOBIND DECORATOR
+// EXAMPLE CREATING AN AUTOBIND DECORATOR (Autobind)
 // ------------------------------------------------
 
 // So we can return a descriptor on method decorators which allows us to change the method or change the configuration of the method.
@@ -297,3 +297,51 @@ const pb = new PrinterBind()
 
 const buttonBind = document.getElementById('bind')!;
 buttonBind.addEventListener('click', pb.showMessage);
+
+
+// VALIDATION WITH DECORATORS (Required & PositiveNumber)
+// ----------------------------------
+
+// It could be nice to have a validation logic decorators that valid or invalid data depends on type,length, empty, etc. that we can use for all validations
+
+function Required() {
+
+}
+
+function PositiveNumber() {
+
+}
+
+function validate(obj: object) {
+
+}
+
+class Course {
+  @Required
+  title: string;
+  @PositiveNumber
+  price: number;
+
+  constructor(title: string, price: number) {
+    this.title = title;
+    this.price = price;
+  }
+}
+
+const courseForm = document.querySelector('form')!;
+courseForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const titleEl = document.getElementById('title') as HTMLInputElement;
+  const priceEl = document.getElementById('price') as HTMLInputElement;
+
+  const title = titleEl.value;
+  const price = +priceEl.value; // the "+" convert into a number
+
+  const createdCourse = new Course(title, price);
+
+  if (!validate(createdCourse)) {
+    throw new Error("Invalid input, please try again!");
+  }
+
+  console.log(createdCourse);
+})
