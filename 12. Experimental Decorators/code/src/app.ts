@@ -209,54 +209,91 @@ const person2 = new Person2();
 console.log(person2);
 
 
-// OTHER DECORATOR RETURN TYPES (LogItem1, LogItem2)
+// OTHER DECORATOR RETURN TYPES
 // ---------------------------------
 
 // You can't return values in all the decorators. You can return values in :
 //  - method decorators
 //  - accessor decorators
 
-// You can return a brand new property descriptor
+// You can return a brand new property descriptor (configurable, enumerable, get or set)
 
-function LogItem1(target: any, name: string, descriptor: PropertyDescriptor) {
-  console.log('');
-  console.log('ACCESSOR DECORATOR');
-  console.log(target);
-  console.log(name);
-  console.log(descriptor);
+
+// EXAMPLE CREATING AN AUTOBIND DECORATOR
+// ------------------------------------------------
+
+// So we can return a descriptor on method decorators which allows us to change the method or change the configuration of the method.
+
+// The problem is : with an event listener, if we point at a function that should be executed, the "this" keyword inside that function
+// will not have the same context or reference as it has if we call just after instantiation. "this" refer to the target of the event.
+
+// The method "bind" is used to link explicitly the "this" context to an object function. How ever the function is called, "this" inside the function will always refer to the object.
+// En résumé, bind est utilisé pour s'assurer que la fonction est appelée avec le bon contexte this, ce qui est particulièrement important dans les gestionnaires d'événements où le contexte peut changer.
+
+// We'll build a decorator which can add to a method which will automatically bind "this" to the surrounding class every time it's called, no matter where we call it.
+// In our decorator:
+//  - we get the value of the descriptor to extract the original method
+//  - then we create a new descriptor and keep the configurable and enumerable properties
+//  - in this object we create a get() accessor and add to the original descriptor bind(this) and return it
+//  - "this" refers to whatever is responsible for triggering this "get" method (the object on which we defined the getter and not overwritten by addEventListener or something else)
+//  - the we return the new descriptor
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Le ! à la fin est un opérateur de post-assertion non-null.
+// Il indique au compilateur TypeScript que vous êtes certain que l'expression n'est pas null ou undefined, même si TypeScript ne peut pas le déterminer par lui-même
+// La fonction document.querySelector peut retourner null si aucun élément correspondant au sélecteur n'est trouvé dans le document. TypeScript, par défaut, ne sait pas si 
+// l'élément existe réellement, donc il suppose que le résultat pourrait être null.
+
+// En ajoutant ! à la fin, vous dites à TypeScript : "Je suis sûr que cet élément existe, donc tu n'as pas besoin de t'inquiéter pour le cas où il serait null." 
+// Cela permet d'éviter les erreurs de compilation qui pourraient survenir si vous essayez d'utiliser button sans vérifier s'il est null.
+
+// Cependant, il est important de noter que l'utilisation de ! doit être faite avec prudence. 
+// Si vous n'êtes pas sûr que l'élément existe, cela pourrait entraîner des erreurs d'exécution si l'élément est effectivement null.
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+
+// No Autobind decorator
+class Printer {
+  message = "This works!";
+
+  showMessage() {
+    console.log(this.message);
+  }
 }
 
-function LogItem2(target: any, name: string | symbol, descriptor: PropertyDescriptor) {
-  console.log('');
-  console.log('METHOD DECORATOR');
-  console.log(target);
-  console.log(name);
-  console.log(descriptor);
-}
+const p = new Printer()
 
-class Item {
-  title: string;
-  private _price: number;
+const button = document.querySelector('button')!;
+button.addEventListener('click', p.showMessage); // undefined
+button.addEventListener('click', p.showMessage.bind(p));
 
-  constructor(title: string, price: number) {
-    this.title = title;
-    this._price = price;
-  }
 
-  @LogItem2
-  getPriceWithTax(tax: number) {
-    return this._price * (1 + tax);
-  }
 
-  @LogItem1
-  set price(value: number) {
-    if (value > 0) {
-      this._price = value;
-    } else {
-      throw new Error("Invalid price - should be positive")
+// Autobind decorator
+function Autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: true,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn
     }
+  };
+  return adjDescriptor;
+}
+
+
+class PrinterBind {
+  message = "This works! (bind)";
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
   }
 }
 
-const i1 = new Item('Screen', 19);
-const i2 = new Item('Knife', 55);
+const pb = new PrinterBind()
+
+const buttonBind = document.getElementById('bind')!;
+buttonBind.addEventListener('click', pb.showMessage);
