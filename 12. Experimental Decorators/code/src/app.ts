@@ -106,8 +106,6 @@ console.log(person);
 // - First of all, they're all running without be instantiating. 
 // - They're all executed when you defined the class they are linked to
 
-
-
 function Log(target: any, propertyName: string | Symbol) {
   console.log('');
   console.log('PROPERTY DECORATOR');
@@ -169,7 +167,7 @@ const p2 = new Product('Keyboard', 55);
 
 
 
-// RETURNING (AND CHANGING) A CLASS IN A CLASS DECORATOR
+// RETURNING (AND CHANGING) A CLASS IN A CLASS DECORATOR (WithTemplate2)
 // ----------------------------------------------------------------
 
 // Inside a decorator function, you can return something :
@@ -209,3 +207,56 @@ class Person2 {
 
 const person2 = new Person2();
 console.log(person2);
+
+
+// OTHER DECORATOR RETURN TYPES (LogItem1, LogItem2)
+// ---------------------------------
+
+// You can't return values in all the decorators. You can return values in :
+//  - method decorators
+//  - accessor decorators
+
+// You can return a brand new property descriptor
+
+function LogItem1(target: any, name: string, descriptor: PropertyDescriptor) {
+  console.log('');
+  console.log('ACCESSOR DECORATOR');
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+function LogItem2(target: any, name: string | symbol, descriptor: PropertyDescriptor) {
+  console.log('');
+  console.log('METHOD DECORATOR');
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+class Item {
+  title: string;
+  private _price: number;
+
+  constructor(title: string, price: number) {
+    this.title = title;
+    this._price = price;
+  }
+
+  @LogItem2
+  getPriceWithTax(tax: number) {
+    return this._price * (1 + tax);
+  }
+
+  @LogItem1
+  set price(value: number) {
+    if (value > 0) {
+      this._price = value;
+    } else {
+      throw new Error("Invalid price - should be positive")
+    }
+  }
+}
+
+const i1 = new Item('Screen', 19);
+const i2 = new Item('Knife', 55);
