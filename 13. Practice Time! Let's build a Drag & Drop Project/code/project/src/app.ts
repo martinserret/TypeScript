@@ -44,13 +44,38 @@ class ProjectInput {
     this.attach();
   }
 
+  private gatherUserInputs(): [string, string, number] | void { // [string, string, number] is the way to define a tuple type in TypeScript. Here, exactly three values are expected: a string, a string, and a number respectively.
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDescription = this.descriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
+
+    if (enteredTitle.trim().length === 0 || enteredDescription.trim().length === 0 || enteredPeople.trim().length === 0) {
+      alert('Invalid input, please try again!');
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople]; // the "+"" converts the string to a number. We can also use parseInt() or parseFloat() to convert the string to a number
+    }
+  }
+
+  private clearInputs() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
+
   @AutoBind
   private submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.titleInputElement.value);
-    console.log(this.descriptionInputElement.value);
-    console.log(this.peopleInputElement.value);
+    // console.log(this.titleInputElement.value);
+    // console.log(this.descriptionInputElement.value);
+    // console.log(this.peopleInputElement.value);
 
+    const userInputs = this.gatherUserInputs();
+    if (Array.isArray(userInputs)) { // Array.isArray() checks if the value is an array
+      const [title, description, people] = userInputs;
+      console.log(title, description, people);
+      this.clearInputs();
+    }
   }
 
   private configure() {
