@@ -1,3 +1,20 @@
+// AUTOBIND DECORATOR
+function AutoBind(_target: any, _methodName: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+
+  const bindDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const bindFunction = originalMethod.bind(this);
+      return bindFunction;
+    }
+  }
+
+  return bindDescriptor;
+}
+
+// PROJECTINPUT CLASS
 class ProjectInput {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
@@ -27,6 +44,7 @@ class ProjectInput {
     this.attach();
   }
 
+  @AutoBind
   private submitHandler(event: Event) {
     event.preventDefault();
     console.log(this.titleInputElement.value);
@@ -36,7 +54,7 @@ class ProjectInput {
   }
 
   private configure() {
-    this.element.addEventListener('submit', this.submitHandler.bind(this)); // bind(this) binds the context of the function to the current instance of the class. So that 'this' inside the function refers to the class instance
+    this.element.addEventListener('submit', this.submitHandler); // bind(this) binds the context of the function to the current instance of the class. So that 'this' inside the function refers to the class instance
   }
 
   private attach() {
