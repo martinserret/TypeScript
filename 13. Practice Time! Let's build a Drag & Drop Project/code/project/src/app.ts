@@ -1,7 +1,16 @@
+// PROJECT TYPE
+enum ProjectStatus { active, Finished } // Enum is a special "class" that represents a group of constants (unchangeable variables). It is used to define a set of named constants. Here, we define two constants: active and finished.
+
+class Project { // here a class and not an interface or type is used because we want to create instances of this class
+  constructor(public id: string, public title: string, public description: string, public people: number, public status: ProjectStatus) { }
+}
+
 // PROJECT STATE MANAGEMENT
+type Listener = (items: Project[]) => void; // This type defines a function that takes an array of Project objects as an argument and returns void. It is used to define the type of the listener functions that will be added to the state management.
+
 class ProjectState {
-  private listeners: any[] = [];
-  private projects: any[] = [];
+  private listeners: Listener[] = [];
+  private projects: Project[] = [];
   private static instance: ProjectState;
 
   private constructor() {
@@ -17,12 +26,7 @@ class ProjectState {
   }
 
   addProject(title: string, description: string, numOfPeople: number) {
-    const newProject = {
-      id: title + Math.random().toString(),
-      title: title,
-      description: description,
-      people: numOfPeople
-    };
+    const newProject = new Project(title + Math.random().toString(), title, description, numOfPeople, ProjectStatus.active);
 
     this.projects.push(newProject);
 
@@ -31,7 +35,7 @@ class ProjectState {
     }
   }
 
-  addListener(listenerFunction: Function) {
+  addListener(listenerFunction: Listener) {
     this.listeners.push(listenerFunction);
   }
 }
@@ -97,7 +101,7 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
-  assignedProjects: any[]; // This will hold the projects assigned to this list
+  assignedProjects: Project[]; // This will hold the projects assigned to this list
 
   constructor(private type: 'active' | 'finished') {
     // GET THE TEMPLATE AND HOST ELEMENTS
@@ -110,7 +114,7 @@ class ProjectList {
     this.element = importedNode.firstElementChild as HTMLElement; // firstElementChild returns the first child element of the specified element
     this.element.id = `${this.type}-projects`;
 
-    projectState.addListener((projects: any) => {
+    projectState.addListener((projects: Project[]) => {
       this.assignedProjects = projects;
       this.renderProjects();
     })
