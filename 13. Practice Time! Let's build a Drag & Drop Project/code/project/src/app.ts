@@ -1,3 +1,44 @@
+// PROJECT STATE MANAGEMENT
+class ProjectState {
+  private listeners: any[] = [];
+  private projects: any[] = [];
+  private static instance: ProjectState;
+
+  private constructor() {
+    // This is a singleton class, so the constructor is private to prevent instantiation from outside the class.
+  }
+
+  static getInstance() { // This method returns the singleton instance of the ProjectState class.
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new ProjectState();
+    return this.instance;
+  }
+
+  addProject(title: string, description: string, numOfPeople: number) {
+    const newProject = {
+      id: title + Math.random().toString(),
+      title: title,
+      description: description,
+      people: numOfPeople
+    };
+
+    this.projects.push(newProject);
+
+    for (const listener of this.listeners) {
+      listener(this.projects.slice()); // slice() creates a shallow copy of the array, so that the original array is not modified
+    }
+  }
+
+  addListener(listenerFunction: Function) {
+    this.listeners.push(listenerFunction);
+  }
+}
+
+const projectState = ProjectState.getInstance(); // Get the singleton instance of ProjectState
+
+
 // VALIDATION
 interface Validatable {
   value: string | number,
@@ -56,18 +97,35 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
+  assignedProjects: any[]; // This will hold the projects assigned to this list
 
   constructor(private type: 'active' | 'finished') {
     // GET THE TEMPLATE AND HOST ELEMENTS
     this.templateElement = document.getElementById('project-list')! as HTMLTemplateElement;
     this.hostElement = document.getElementById('app')! as HTMLDivElement;
+    this.assignedProjects = []; // Initialize the assignedProjects array
 
     // CREATE THE ELEMENT
     const importedNode = document.importNode(this.templateElement.content, true); // importNode(template, deep) creates a copy of the template content
     this.element = importedNode.firstElementChild as HTMLElement; // firstElementChild returns the first child element of the specified element
     this.element.id = `${this.type}-projects`;
+
+    projectState.addListener((projects: any) => {
+      this.assignedProjects = projects;
+      this.renderProjects();
+    })
+
     this.attach();
     this.renderContent();
+  }
+
+  private renderProjects() {
+    const listElement = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+    for (const project of this.assignedProjects) {
+      const listItem = document.createElement('li');
+      listItem.textContent = project.title;
+      listElement.appendChild(listItem);
+    }
   }
 
   private renderContent() {
@@ -162,7 +220,7 @@ class ProjectInput {
     const userInputs = this.gatherUserInputs();
     if (Array.isArray(userInputs)) { // Array.isArray() checks if the value is an array
       const [title, description, people] = userInputs;
-      console.log(title, description, people);
+      projectState.addProject(title, description, people); // Add the project to the state management
       this.clearInputs();
     }
   }
