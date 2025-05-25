@@ -51,6 +51,39 @@ function AutoBind(_target: any, _methodName: string, descriptor: PropertyDescrip
   return bindDescriptor;
 }
 
+// PROJECTLIST CLASS
+class ProjectList {
+  templateElement: HTMLTemplateElement;
+  hostElement: HTMLDivElement;
+  element: HTMLElement;
+
+  constructor(private type: 'active' | 'finished') {
+    // GET THE TEMPLATE AND HOST ELEMENTS
+    this.templateElement = document.getElementById('project-list')! as HTMLTemplateElement;
+    this.hostElement = document.getElementById('app')! as HTMLDivElement;
+
+    // CREATE THE ELEMENT
+    const importedNode = document.importNode(this.templateElement.content, true); // importNode(template, deep) creates a copy of the template content
+    this.element = importedNode.firstElementChild as HTMLElement; // firstElementChild returns the first child element of the specified element
+    this.element.id = `${this.type}-projects`;
+    this.attach();
+    this.renderContent();
+  }
+
+  private renderContent() {
+    const listId = `${this.type}-projects-list`;
+    this.element.querySelector("ul")!.id = listId; // querySelector(selector) returns the first element that matches the specified selector. The "!" asserts that the value is not null or undefined.
+    this.element.querySelector("h2")!.textContent = this.type.toUpperCase() + " PROJECTS";
+  }
+
+
+  private attach() {
+    this.hostElement.insertAdjacentElement('beforeend', this.element); // insertAdjacentElement(where, element) inserts the element at the specified position relative to the target element
+  }
+}
+
+
+
 // PROJECTINPUT CLASS
 class ProjectInput {
   templateElement: HTMLTemplateElement;
@@ -144,3 +177,5 @@ class ProjectInput {
 }
 
 const projectInput = new ProjectInput();
+const activeProjectList = new ProjectList('active');
+const finishedProjectList = new ProjectList('finished');
