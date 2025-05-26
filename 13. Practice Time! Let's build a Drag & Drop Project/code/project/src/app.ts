@@ -1,5 +1,5 @@
 // PROJECT TYPE
-enum ProjectStatus { active, Finished } // Enum is a special "class" that represents a group of constants (unchangeable variables). It is used to define a set of named constants. Here, we define two constants: active and finished.
+enum ProjectStatus { Active, Finished } // Enum is a special "class" that represents a group of constants (unchangeable variables). It is used to define a set of named constants. Here, we define two constants: active and finished.
 
 class Project { // here a class and not an interface or type is used because we want to create instances of this class
   constructor(public id: string, public title: string, public description: string, public people: number, public status: ProjectStatus) { }
@@ -26,7 +26,7 @@ class ProjectState {
   }
 
   addProject(title: string, description: string, numOfPeople: number) {
-    const newProject = new Project(title + Math.random().toString(), title, description, numOfPeople, ProjectStatus.active);
+    const newProject = new Project(title + Math.random().toString(), title, description, numOfPeople, ProjectStatus.Active);
 
     this.projects.push(newProject);
 
@@ -96,35 +96,63 @@ function AutoBind(_target: any, _methodName: string, descriptor: PropertyDescrip
   return bindDescriptor;
 }
 
-// PROJECTLIST CLASS
-class ProjectList {
+// COMPONENT BASE CLASS
+abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
-  hostElement: HTMLDivElement;
-  element: HTMLElement;
-  assignedProjects: Project[]; // This will hold the projects assigned to this list
+  hostElement: T;
+  element: U;
 
-  constructor(private type: 'active' | 'finished') {
+  constructor(templateId: string, hostElementId: string, insertAtStart: boolean, newElementId?: string) {
     // GET THE TEMPLATE AND HOST ELEMENTS
-    this.templateElement = document.getElementById('project-list')! as HTMLTemplateElement;
-    this.hostElement = document.getElementById('app')! as HTMLDivElement;
-    this.assignedProjects = []; // Initialize the assignedProjects array
+    this.templateElement = document.getElementById(templateId)! as HTMLTemplateElement;
+    this.hostElement = document.getElementById(hostElementId)! as T;
 
     // CREATE THE ELEMENT
     const importedNode = document.importNode(this.templateElement.content, true); // importNode(template, deep) creates a copy of the template content
-    this.element = importedNode.firstElementChild as HTMLElement; // firstElementChild returns the first child element of the specified element
-    this.element.id = `${this.type}-projects`;
+    this.element = importedNode.firstElementChild as U; // firstElementChild returns the first child element of the specified element
+
+    if (newElementId) {
+      this.element.id = newElementId;
+    }
+
+    this.attach(insertAtStart);
+  }
+
+  private attach(insertAtBeginning: boolean) {
+    this.hostElement.insertAdjacentElement(insertAtBeginning ? 'afterbegin' : 'beforeend', this.element);
+  }
+
+  abstract configure(): void; // This method must be implemented by the subclasses
+  abstract renderContent(): void; // This method must be implemented by the subclasses
+}
+
+
+// PROJECTLIST CLASS
+class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+  assignedProjects: Project[]; // This will hold the projects assigned to this list
+
+  constructor(private type: 'active' | 'finished') {
+    super('project-list', 'app', false, `${type}-projects`);
+    this.assignedProjects = []; // Initialize the assignedProjects array
 
     projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects;
+      const relevantProjects = projects.filter(project => {
+        if (this.type === 'active') {
+          return project.status === ProjectStatus.Active;
+        }
+        return project.status === ProjectStatus.Finished;
+      });
+
+      this.assignedProjects = relevantProjects;
       this.renderProjects();
     })
 
-    this.attach();
     this.renderContent();
   }
 
   private renderProjects() {
     const listElement = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+    listElement.innerHTML = ''; // Clear the list before rendering new projects
     for (const project of this.assignedProjects) {
       const listItem = document.createElement('li');
       listItem.textContent = project.title;
@@ -132,15 +160,12 @@ class ProjectList {
     }
   }
 
-  private renderContent() {
+  configure() { }
+
+  renderContent() {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector("ul")!.id = listId; // querySelector(selector) returns the first element that matches the specified selector. The "!" asserts that the value is not null or undefined.
     this.element.querySelector("h2")!.textContent = this.type.toUpperCase() + " PROJECTS";
-  }
-
-
-  private attach() {
-    this.hostElement.insertAdjacentElement('beforeend', this.element); // insertAdjacentElement(where, element) inserts the element at the specified position relative to the target element
   }
 }
 
