@@ -158,6 +158,16 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
     this.renderContent();
   }
 
+  @AutoBind
+  dragStartHandler(event: DragEvent): void {
+    console.log(event);
+  }
+
+  @AutoBind
+  dragEndHandler(_event: DragEvent): void {
+    console.log('DRAG END');
+  }
+
   configure() {
     this.element.addEventListener('dragstart', this.dragStartHandler); // dragstart event is fired when the user starts dragging an element.
     this.element.addEventListener('dragend', this.dragEndHandler); // dragend event is fired when the user stops dragging an element.
@@ -168,21 +178,11 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
     this.element.querySelector('h3')!.textContent = this.persons + ' assigned';
     this.element.querySelector('p')!.textContent = this.project.description;
   }
-
-  @AutoBind
-  dragStartHandler(event: DragEvent): void {
-    console.log(event);
-  }
-
-  @AutoBind
-  dragEndHandler(_event: DragEvent): void {
-    console.log('DRAG END');
-  }
 }
 
 
 // PROJECTLIST CLASS
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
   assignedProjects: Project[]; // This will hold the projects assigned to this list
 
   constructor(private type: 'active' | 'finished') {
@@ -193,7 +193,28 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     this.renderContent(); // Call the renderContent method to set up the initial content of the project list
   }
 
+  @AutoBind
+  dragOverHandler(_event: DragEvent): void {
+    const listElement = this.element.querySelector('ul')!;
+    listElement.classList.add('droppable'); // Add a class to the list element to indicate that it is a droppable area (background color changes to white to indicate that it is a droppable area)
+
+  }
+
+  dropHandler(_event: DragEvent): void {
+
+  }
+
+  @AutoBind
+  dragLeaveHandler(_event: DragEvent): void {
+    const listElement = this.element.querySelector('ul')!;
+    listElement.classList.remove('droppable');
+  }
+
   configure() {
+    this.element.addEventListener('dragover', this.dragOverHandler); // dragover event is fired when an element is being dragged over a valid drop target.
+    this.element.addEventListener('drop', this.dropHandler); // drop event is fired when an element is dropped on a valid drop target.
+    this.element.addEventListener('dragleave', this.dragLeaveHandler); // dragleave event is fired when an element is dragged out of a valid drop target.
+
     projectState.addListener((projects: Project[]) => {
       const relevantProjects = projects.filter(project => {
         if (this.type === 'active') {
