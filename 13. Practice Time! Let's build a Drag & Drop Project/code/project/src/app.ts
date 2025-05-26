@@ -1,3 +1,15 @@
+// DRAG AND DROP INTERFACES
+interface Draggable {
+  dragStartHandler(event: DragEvent): void;
+  dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
+}
+
 // PROJECT TYPE
 enum ProjectStatus { Active, Finished } // Enum is a special "class" that represents a group of constants (unchangeable variables). It is used to define a set of named constants. Here, we define two constants: active and finished.
 
@@ -131,7 +143,7 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 }
 
 // PROJECTITEM CLASS
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable {
   private project: Project;
 
   get persons() {
@@ -146,12 +158,25 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.renderContent();
   }
 
-  configure() { }
+  configure() {
+    this.element.addEventListener('dragstart', this.dragStartHandler); // dragstart event is fired when the user starts dragging an element.
+    this.element.addEventListener('dragend', this.dragEndHandler); // dragend event is fired when the user stops dragging an element.
+  }
 
   renderContent() {
     this.element.querySelector('h2')!.textContent = this.project.title;
     this.element.querySelector('h3')!.textContent = this.persons + ' assigned';
     this.element.querySelector('p')!.textContent = this.project.description;
+  }
+
+  @AutoBind
+  dragStartHandler(event: DragEvent): void {
+    console.log(event);
+  }
+
+  @AutoBind
+  dragEndHandler(_event: DragEvent): void {
+    console.log('DRAG END');
   }
 }
 
