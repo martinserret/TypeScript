@@ -49,7 +49,18 @@ class ProjectState extends State<Project> {
     const newProject = new Project(title + Math.random().toString(), title, description, numOfPeople, ProjectStatus.Active);
 
     this.projects.push(newProject);
+    this.updateListeners(); // Notify all listeners that a new project has been added
+  }
 
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find(project => project.id === projectId);
+    if (project && project.status !== newStatus) {
+      project.status = newStatus;
+      this.updateListeners(); // Notify all listeners that a project has been moved
+    }
+  }
+
+  private updateListeners() {
     for (const listener of this.listeners) {
       listener(this.projects.slice()); // slice() creates a shallow copy of the array, so that the original array is not modified
     }
@@ -167,9 +178,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
   }
 
   @AutoBind
-  dragEndHandler(_event: DragEvent): void {
-    console.log('DRAG END');
-  }
+  dragEndHandler(_event: DragEvent): void { }
 
   configure() {
     this.element.addEventListener('dragstart', this.dragStartHandler); // dragstart event is fired when the user starts dragging an element.
@@ -205,8 +214,10 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
     }
   }
 
+  @AutoBind
   dropHandler(event: DragEvent): void {
-    console.log(event.dataTransfer!.getData('text/plain'));
+    const projectId = event.dataTransfer!.getData('text/plain'); // getData(format) retrieves the data that was set in the dragStartHandler. The format is 'text/plain' and the data is the project id.
+    projectState.moveProject(projectId, this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished); // Move the project to the new status based on the type of the project list
   }
 
   @AutoBind
