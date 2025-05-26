@@ -160,7 +160,10 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
 
   @AutoBind
   dragStartHandler(event: DragEvent): void {
-    console.log(event);
+    // setData(format, data) sets the data to be dragged. The format is 'text/plain' and the data is the project id.
+    // attach the ID is all we need to do here to fetch the project later when it is dropped in the ProjectList. We wanna transfer only a small amount of data to save memory and performance.
+    event.dataTransfer!.setData('text/plain', this.project.id);
+    event.dataTransfer!.effectAllowed = 'move'; // controls the cursor look, tells the browser our intention to move the item (alternative is 'copy' which would indicate that we want to copy the item instead of moving it => remove it from the original location)
   }
 
   @AutoBind
@@ -194,14 +197,16 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
   }
 
   @AutoBind
-  dragOverHandler(_event: DragEvent): void {
-    const listElement = this.element.querySelector('ul')!;
-    listElement.classList.add('droppable'); // Add a class to the list element to indicate that it is a droppable area (background color changes to white to indicate that it is a droppable area)
-
+  dragOverHandler(event: DragEvent): void {
+    if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+      event.preventDefault(); // by default drag and drop events is to not allow dropping => so prevent default
+      const listElement = this.element.querySelector('ul')!;
+      listElement.classList.add('droppable'); // Add a class to the list element to indicate that it is a droppable area (background color changes to white to indicate that it is a droppable area)
+    }
   }
 
-  dropHandler(_event: DragEvent): void {
-
+  dropHandler(event: DragEvent): void {
+    console.log(event.dataTransfer!.getData('text/plain'));
   }
 
   @AutoBind
