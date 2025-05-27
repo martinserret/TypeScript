@@ -5,11 +5,15 @@
 
 // in index.html, change the script tag to use type="module" to enable ES modules and delete defer (<script type="module" src="dist/app.js"></script>)
 
+// you can also use import * as Validation from "../util/validation.js"; and then use Validation.validate() to call the validate function or Validation.Validate. This is useful if you want to import multiple functions from the same module and keep the code clean.
 
-import { Component } from "./base-component.js";
+// you can assign alias with "as" key word: import { AutoBind as autobind } from "../decorators/autobind.js"; 
+
+import Component from "./base-component.js"; // because export default
 import { Validatable, validate } from "../util/validation.js";
 import { AutoBind } from "../decorators/autobind.js";
 import { projectState } from "../state/project-state.js";
+
 
 // PROJECTINPUT CLASS
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {

@@ -1,5 +1,8 @@
+// You can add "default" to the export statement to make it the default export of the module (one per file). Then, when you import the module, you don't need to use curly braces to import
+
+
 // COMPONENT BASE CLASS
-export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
+export default abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
   hostElement: T;
   element: U;
