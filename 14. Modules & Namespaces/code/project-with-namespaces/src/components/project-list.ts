@@ -10,6 +10,9 @@
 // Also, you have to set "module" to "amd" or "system" to make it work. If you set it to "commonjs", the namespaces will not be concatenated into a single file.
 // "moduleResolution": "node" is not needed for namespaces, but it is needed for modules. It tells Typescript how to resolve modules. If you use namespaces, you can set it to "classic" or "node". If you use modules, you have to set it to "node". You need it with Babel, because Babel uses the Node.js module resolution algorithm to resolve modules.
 
+// in index.html, change the script tag to load the concatenated file instead of the individual files (<script src="dist/app.js" defer></script>)
+
+
 /// <reference path="base-component.ts" />
 /// <reference path="../decorators/autobind.ts" />
 /// <reference path="../state/project-state.ts" />
