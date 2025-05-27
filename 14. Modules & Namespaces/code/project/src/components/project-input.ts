@@ -11,6 +11,9 @@
 // "moduleResolution": "node" is not needed for namespaces, but it is needed for modules. It tells Typescript how to resolve modules. If you use namespaces, you can set it to "classic" or "node". If you use modules, you have to set it to "node". You need it with Babel, because Babel uses the Node.js module resolution algorithm to resolve modules.
 
 /// <reference path="base-component.ts" />
+/// <reference path="../decorators/autobind.ts" />
+/// <reference path="../util/validation.ts" />
+/// <reference path="../state/project-state.ts" />
 
 // PROJECTINPUT CLASS
 namespace App {
