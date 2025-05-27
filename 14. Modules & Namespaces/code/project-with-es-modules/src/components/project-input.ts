@@ -9,6 +9,12 @@
 
 // you can assign alias with "as" key word: import { AutoBind as autobind } from "../decorators/autobind.js"; 
 
+// You can annotate the TypeScript feature you import before the curly brackets if you only import the same type of feature or inside the curly brackets if you import multiple features from the same module
+// It's not necessary and not recommended but depending on the build tool you use, this annotation can help the build tool understand what's a type and what's an actual thing that should be converted to JavaScript.
+// That can be the calculation more efficient or it may even be required to make the project compilation or running the project work.
+// eg. import { type DragTarget } from '../models/drag-drop.js';
+// eg. import type { DragTarget } from '../models/drag-drop.js';
+
 import Component from "./base-component.js"; // because export default
 import { Validatable, validate } from "../util/validation.js";
 import { AutoBind } from "../decorators/autobind.js";
