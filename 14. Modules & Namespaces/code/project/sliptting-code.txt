@@ -1,0 +1,11 @@
+You have 2 main options for splitting code and importing/exporting features across files with TypeScript : 
+
+- Namespaces & File Bundling (TypeScript features)
+  | Use "namespace" syntax to group related code even if that code is stored in different files.
+  | Per-file or bundled compilation is possible. You can split your code in multiple files but you can compile and merge theses different files together into a unique JS file into when you serving the code in production.
+
+- ES Modules (JavaScript feature)
+  | Use official ES Modules import/export syntax
+  | Bundling via build tools (e.g Webpack) is still possible
+
+TypeScript has its own solution because this ES Modules feature hasn't always been around. It's a relatively new JS feature. 
