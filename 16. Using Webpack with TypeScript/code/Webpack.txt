@@ -1,0 +1,10 @@
+WHAT IS WEBPACK & WHY DO WE NEED IT
+////////////////////////////////////////////
+
+The problem we have using our previous setup is that we a have a bunch of HTTP requests (in the tab "Network" in your browser). Theses files are relatively small but there are a lot of HTTP requests.
+The problem is that each requests takes time to download the files and has a base duration (the browser makes the request and send it, then we have the work on the server which serves the file, etc.).
+Deploying that kind of app on the web, with many requests can really introduce a lot of latency and slow down the project.
+
+Webpack is a solution to reduce that amount of HTTP requests. Webpack bundle our files together. "Build Orchestration" tool : https://webpack.js.org/
+
+You can write codes split up across multiple files but Webpack then takes all these files and bundles them together. It will also optimize our code and it also allows us to add more build steps, minified code, more build tools.
