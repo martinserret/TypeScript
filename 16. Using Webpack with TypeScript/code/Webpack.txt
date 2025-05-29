@@ -16,3 +16,6 @@ To install Wabpack: npm install --save-dev webpack webpack-cli webpack-dev-serve
 - webpack-dev-server: built in development server that watches our files for changes and automatically triggers webpack to recompile when something changes and which auto serves our page
 - typescript: good practice to auto install a copy of Typescript per project (for the version)
 - ts-loader: works with webpack and tells it how to convert Typescript code to Javascript
+
+
+IMPORTANT: in our Typescript files, remove all ".js" at the end of the imports file

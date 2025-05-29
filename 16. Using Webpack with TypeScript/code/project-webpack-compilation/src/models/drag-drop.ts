@@ -1,8 +1,3 @@
-// USING ES MODULES
-// ------------------------------
-
-// export keyword works without namespaces. It's a default Javascript syntax also supported by Typescript.
-
 // DRAG AND DROP INTERFACES
 export interface Draggable {
   dragStartHandler(event: DragEvent): void;
