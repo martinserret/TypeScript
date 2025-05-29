@@ -28,3 +28,17 @@ in webpack.config.js:
 - devServer: configuration for the development server. It serves files from the current directory (__dirname) and allows you to access your application in the browser during development.
 
 To use webpack, add a script in package.json: "build": "webpack"
+
+
+in webpack.config.prod.js:
+- plugins: extra extensions you can add to your Webpack workflow which will basically be apply to the entire project.
+- first install: npm install --save-dev clean-webpack-plugin
+- clean-webpack-plugin: clean up the output folder whenever we rebuild our project
+- new CleanPlugin.CleanWebpackPlugin(): Use CleanWebpackPlugin to clean the output directory before each build
+- delete the line devtool: 'inline-source-map' as it is not needed in production builds.
+- delete the line publicPath: '/dist/' as it is not needed in production builds.
+
+
+in package.json:
+- "start": "webpack-dev-server" starts the Webpack server with the config file webpack.config.js
+- "build": "webpack --config webpack.config.prod.js" tells to Webpack to use the default config file webpack.config.prod.js

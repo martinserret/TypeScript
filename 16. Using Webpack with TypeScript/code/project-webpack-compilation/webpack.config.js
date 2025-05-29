@@ -1,6 +1,7 @@
 const path = require('path')
 
 module.exports = {
+  mode: 'development', // Set the mode to development for better debugging and faster builds
   entry: './src/app.ts',
   output: {
     filename: 'bundle.js',
