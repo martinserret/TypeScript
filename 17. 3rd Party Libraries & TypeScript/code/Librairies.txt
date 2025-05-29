@@ -1,0 +1,8 @@
+3RD PARTY LIBRAIRIES & TYPESCRIPT
+------------------------------------------
+librairie use in this example:
+- lodash: library that provides tons of helper methods that help you interact with objects, arrays, change the structure of arrays and objects and lot of useful utility functionalities. => npm i --save lodash
+
+
+Problem using Javascript librairies with Typescript: 
+  Javascript librairies are not written with Typescript in mind.
