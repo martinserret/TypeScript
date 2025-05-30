@@ -20,4 +20,6 @@ Examples:
 
 Zod
   With Zod iss all about you defining the structure of values, the types of values, and Zod ensuring that the actual values you're working with have that shape and structure type.
-  Zod allows you to define a schema for any kind of data you might be receiving. Zod allows you to transfer the advantage of Typescript which you have during compilation to the runtime.
+  Zod allows you to define a schema for any kind of data you might be receiving. 
+  Zod allows you to transfer the advantage of Typescript which you have during compilation to the runtime.
+  With Zod, if parse does not throw an error, without defining any type or passing any type name or any generic method, we get type safety on our variable.
