@@ -5,4 +5,7 @@ librairie use in this example:
 
 
 Problem using Javascript librairies with Typescript: 
-  Javascript librairies are not written with Typescript in mind.
+  - some Javascript librairies are not written with Typescript in mind and are Javascript-only.
+Solution:
+  - typically when you're using a Javascript library in a Typescript project, you'll install an extra library that contains the type definitions (in our example @types/lodash).
+  - @types repository refers the DefinitelyTyped repository (https://github.com/DefinitelyTyped/DefinitelyTyped) which maintains a huge number of type definitions for all kinds of librairies.

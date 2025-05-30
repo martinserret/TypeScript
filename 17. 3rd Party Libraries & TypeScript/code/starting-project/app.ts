@@ -4,4 +4,4 @@ const numbers = [1, 2, 3, 4, 5];
 
 // split that into multiple arrays
 
-_.chunck(numbers, 2);
+const chunkedArray = _.chunk(numbers, 2);
