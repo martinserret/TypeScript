@@ -9,3 +9,15 @@ Problem using Javascript librairies with Typescript:
 Solution:
   - typically when you're using a Javascript library in a Typescript project, you'll install an extra library that contains the type definitions (in our example @types/lodash).
   - @types repository refers the DefinitelyTyped repository (https://github.com/DefinitelyTyped/DefinitelyTyped) which maintains a huge number of type definitions for all kinds of librairies.
+
+
+There are also librairies that are written with Typescript in mind hat are written in a Typescript-first way. 
+Examples: 
+  - Zod: Typescript first
+  - class-validator: Typescript first
+  - Prisma: not Typescript first (you can use it in Javascript) but written in Typescript and you don't have to install an extra types package
+
+
+Zod
+  With Zod iss all about you defining the structure of values, the types of values, and Zod ensuring that the actual values you're working with have that shape and structure type.
+  Zod allows you to define a schema for any kind of data you might be receiving. Zod allows you to transfer the advantage of Typescript which you have during compilation to the runtime.

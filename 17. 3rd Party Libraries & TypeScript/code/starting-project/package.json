@@ -11,7 +11,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@types/node": "^22.15.27",
+    "lodash": "^4.17.21",
+    "zod": "^3.25.42"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.17"
