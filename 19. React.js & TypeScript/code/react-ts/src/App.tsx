@@ -1,10 +1,13 @@
+import Header from "./components/Header";
+import goalsImage from "./assets/goals.jpg";
+
 function App() {
 
   return (
-    <>
-      <h1>Hello WOrld!</h1>
-    </>
-  )
+    <main>
+      <Header image={{src: goalsImage, alt: "A list of goals"}} />
+    </main>
+  );
 }
 
-export default App
+export default App;
