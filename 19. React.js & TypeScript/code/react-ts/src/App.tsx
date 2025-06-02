@@ -6,7 +6,9 @@ import CourseGoals from "./components/CourseGoals";
 import goalsImage from "./assets/goals.jpg";
 
 function App() {
-  const [goals, setGoals] = useState([
+  // useState is a generic type. You can specify the type of the state variable (useState<Type>())
+  // Alternatively, you can use TypeScript's type inference to automatically determine the type based on the initial value.
+  const [goals, setGoals] = useState([ 
     {
       id:1, 
       title: "Learn TS", 
