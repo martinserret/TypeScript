@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import CourseGoals from "./components/CourseGoals";
 
 import goalsImage from "./assets/goals.jpg";
+import NewGoal from "./components/NewGoal";
 
 function App() {
   // useState is a generic type. You can specify the type of the state variable (useState<Type>())
@@ -23,7 +24,11 @@ function App() {
 
 
   function handleDeleteGoal(id: number) {
-    setGoals((prevGoals) => prevGoals.filter(goal => goal.id !== id));
+    setGoals(prevGoals => prevGoals.filter(goal => goal.id !== id));
+  }
+
+  function handleAddGoal(text: string, summary: string) {
+    setGoals(prevGoals => prevGoals.concat({id: Math.random(), title: text, description: summary}));
   }
 
   return (
@@ -31,6 +36,9 @@ function App() {
       <Header image={{src: goalsImage, alt: "A list of goals"}}>
         <h1>My Course Goals</h1>
       </Header>
+      <NewGoal 
+        onAdd={handleAddGoal}
+      />
       <CourseGoals 
         goals={goals}
         onDelete={handleDeleteGoal}

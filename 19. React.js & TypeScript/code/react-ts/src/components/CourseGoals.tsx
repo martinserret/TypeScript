@@ -7,8 +7,8 @@ type Goal = {
 };
 
 interface CourseGoalsProps {
-  goals: Goal[],
-  onDelete: (id: number) => void
+  goals: Goal[];
+  onDelete: (id: number) => void;
 };
 
 export default function CourseGoals({ goals, onDelete }: CourseGoalsProps) { // Recommended for React 18+

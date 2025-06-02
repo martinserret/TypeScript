@@ -1,6 +1,10 @@
 import { useRef, type FormEvent } from 'react';
 
-export default function NewGoal() {
+interface NewGoalProps {
+  onAdd: (text: string, summary: string) => void;
+}
+
+export default function NewGoal({ onAdd }: NewGoalProps) {
   // here, we use ref to access the input elements directly but we could also use controlled components with useState
   const goalRef = useRef<HTMLInputElement>(null); // We add an explicit type to the ref to indicate that it will hold an HTMLInputElement and not the type of the initial value (which is null).
   const summaryRef = useRef<HTMLInputElement>(null);// We add an explicit type to the ref to indicate that it will hold an HTMLInputElement and not the type of the initial value (which is null).
@@ -13,8 +17,8 @@ export default function NewGoal() {
     const enteredSummary = summaryRef.current!.value; // "!" is a non-null assertion operator, which tells TypeScript that we are sure goalRef.current is not null.
 
     // validation...
+    onAdd(enteredGoal, enteredSummary)
 
-    
   }
   
   return (
