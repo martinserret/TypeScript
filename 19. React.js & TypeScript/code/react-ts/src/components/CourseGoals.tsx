@@ -1,3 +1,5 @@
+// import { type FC } from 'react';
+
 type Goal = {
   id: number,
   title: string,
@@ -8,7 +10,8 @@ interface CourseGoalsProps {
   goals: Goal[]
 };
 
-export default function CourseGoals({ goals }: CourseGoalsProps) {
+export default function CourseGoals({ goals }: CourseGoalsProps) { // Recommended for React 18+
+// const CourseGoals: FC<CourseGoalsProps> = ({goals}) => { // Old project (React 17 and earlier)
   return (
     <ul>
       {goals.map(goal => (
@@ -25,3 +28,5 @@ export default function CourseGoals({ goals }: CourseGoalsProps) {
     </ul>
   )
 }
+
+// export default CourseGoals;
