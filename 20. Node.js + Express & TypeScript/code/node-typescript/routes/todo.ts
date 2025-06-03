@@ -1,6 +1,6 @@
-import express, { Request, Response } from 'express';
+import express, { type Request, type Response } from 'express';
 
-import { addTodo, getTodo, getTodos, removeTodo, updateTodo } from '../data.js'; // Import the addTodo function from data.js and not .ts
+import { addTodo, getTodo, getTodos, removeTodo, updateTodo } from '../data.ts'; // Import the addTodo function from data.js and not .ts (if you use native Node.js Typescript support, use .ts)
 
 const router = express.Router();
 

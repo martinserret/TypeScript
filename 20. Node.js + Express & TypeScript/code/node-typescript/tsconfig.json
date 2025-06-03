@@ -7,5 +7,9 @@
     "outDir": "dist",
     "lib": ["es2022", "dom"],
     "strict": true,
+
+    "allowImportingTsExtensions": true, // Allows importing .ts files directly
+    "noEmit": true, // Prevents emitting JavaScript files, useful for type-checking only
+    "verbatimModuleSyntax": true, // Ensures that the module syntax is preserved as-is
   }
 }
