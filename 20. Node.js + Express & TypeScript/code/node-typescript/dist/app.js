@@ -17,4 +17,8 @@ const app = express();
 // })
 app.use(express.json()); // Middleware to parse JSON request bodies
 app.use(todoRoutes);
+app.use((err, req, res, next) => {
+    // Error handling middleware
+    res.status(500).json({ message: "An error occurred" });
+});
 app.listen(3000);
